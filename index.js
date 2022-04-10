@@ -1,0 +1,104 @@
+// Inject environment variables
+require("dotenv").config();
+const isProduction = process.env.NODE_ENV === "production";
+
+// Express App
+const express = require("express");
+const app = express();
+
+// CORS
+const cors = require("cors");
+const options = {
+  credentials: true,
+  origin: isProduction ? process.env.ADDRESS : "*",
+};
+
+app.use(cors(options));
+
+// Helmet
+const helmet = require("helmet");
+app.use(helmet());
+
+// Gzip compression
+const compression = require("compression");
+app.use(compression());
+
+// Body parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Logger with Morgan
+const morgan = require("morgan");
+app.use(morgan("dev"));
+
+// Trust first proxy (Required for Heroku)
+app.set("trust proxy", 1);
+
+// Session
+const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
+/////////////////////////////// POOL
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    name: pg.sessionId,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 3, //
+      httpOnly: true,
+      secure: isProduction ? true : false,
+      sameSite: isProduction ? "none" : "lax",
+    },
+    store: new pgSession({
+      pool: pgPool,
+      createTableIfMissing: true,
+    }),
+  })
+);
+
+// Passport
+const passport = require("passport");
+///////////////////////////////////////
+
+// Rate Limiter
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+  windowMs: 60000, // 1 minute
+  max: 10, // 10 requests per minute
+  standardHeaders: true,
+});
+
+app.use(limiter);
+
+// Swagger Docs
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./openApi.yaml");
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, { customSiteTitle: "E-Commerce API" })
+);
+
+// Routes
+/////////////////////////////////////////
+
+// Error handling
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  res.status(status).json({
+    error: {
+      status,
+      message: err.message || "Internal Server Error",
+    },
+  });
+});
+
+// Port
+const PORT = process.env.PORT || 3000;
+
+// Server
+app.listen(PORT, () => console.log(`Server Listening on Port ${PORT}`));
