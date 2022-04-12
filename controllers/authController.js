@@ -14,16 +14,10 @@ const register = async (req, res, next) => {
   try {
     // Hash the input password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await db.query(createUser, [
-      first_name,
-      last_name,
-      email,
-      hashedPassword,
-    ]);
 
-    res
-      .status(201)
-      .json({ message: "User Created Successfully", user: newUser.rows[1] });
+    await db.query(createUser, [first_name, last_name, email, hashedPassword]);
+
+    res.status(201).json({ message: "User Created Successfully" });
   } catch (err) {
     // If UNIQUE constraint is violated
     if (err.code == "23505") {

@@ -42,7 +42,7 @@ const db = require("./db/index");
 app.use(
   session({
     secret: process.env.SECRET,
-    name: pg.sessionId,
+    name: "pg.sessionId",
     saveUninitialized: false,
     resave: false,
     cookie: {
