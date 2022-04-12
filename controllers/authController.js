@@ -1,5 +1,6 @@
 const db = require("../db/index");
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 
 // Queries
 const { createUser } = require("../db/authQuery");
@@ -28,4 +29,36 @@ const register = async (req, res, next) => {
   }
 };
 
-module.exports = { register };
+// Login
+const login = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+
+    // If no user is found
+    if (!user) {
+      return res.status(401).json(info);
+    }
+
+    // If user is found
+    req.login(user, (err) => {
+      if (err) {
+        return next(err);
+      } else {
+        return res.status(200).json({
+          message: "Login Successful",
+          user: {
+            user_id: req.user.user_id,
+            email: req.user.email,
+          },
+        });
+      }
+    });
+  })(req, res, next);
+};
+
+// Logout
+/////////////////////////////////////
+
+module.exports = { register, login };

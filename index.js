@@ -60,7 +60,11 @@ app.use(
 
 // Passport
 const passport = require("passport");
-///////////////////////////////////////
+const initialize = require("./configs/passport");
+
+initialize(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Rate Limiter
 const rateLimit = require("express-rate-limit");
