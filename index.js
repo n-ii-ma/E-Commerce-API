@@ -37,7 +37,7 @@ app.set("trust proxy", 1);
 // Session
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
-/////////////////////////////// POOL
+const db = require("./db/index");
 
 app.use(
   session({
@@ -46,13 +46,13 @@ app.use(
     saveUninitialized: false,
     resave: false,
     cookie: {
-      maxAge: 3, //
+      maxAge: 1209600000, // 14 days
       httpOnly: true,
       secure: isProduction ? true : false,
       sameSite: isProduction ? "none" : "lax",
     },
     store: new pgSession({
-      pool: pgPool,
+      pool: db,
       createTableIfMissing: true,
     }),
   })
