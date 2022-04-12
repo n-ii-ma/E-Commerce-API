@@ -5,12 +5,14 @@ const bcrypt = require("bcrypt");
 // Queries
 const { findUserByEmail, findUserById } = require("../db/authQuery");
 
+// Passport initialization
 const initialize = (passport) => {
   const authenticateUser = async (email, password, done) => {
     try {
       // Checking if user with the given email exists
       const findUser = await db.query(findUserByEmail, [email]);
       const user = findUser.rows[0];
+
       if (!user) {
         return done(null, false, { message: "User Not Found!" });
       }
@@ -37,7 +39,7 @@ const initialize = (passport) => {
 
   // Store user id in session
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user.user_id);
   });
 
   // Fetch user data from session

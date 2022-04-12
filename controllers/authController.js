@@ -59,6 +59,17 @@ const login = (req, res, next) => {
 };
 
 // Logout
-/////////////////////////////////////
+const logout = (req, res, next) => {
+  req.logout();
+  // Delete session and clear cookie
+  req.session.destroy((err) => {
+    if (err) {
+      next(err);
+    } else {
+      res.clearCookie("pg.sessionId");
+      res.status(200).json({ message: "Logout Successful" });
+    }
+  });
+};
 
-module.exports = { register, login };
+module.exports = { register, login, logout };
