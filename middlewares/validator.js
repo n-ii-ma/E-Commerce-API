@@ -66,6 +66,25 @@ const validateRegisteration = [
   customValidationError,
 ];
 
+// Validate user login
+const validateLogin = [
+  body("email")
+    .exists({ checkFalsy: true })
+    .withMessage("Email Cannot Be Empty!")
+    .bail()
+    .normalizeEmail()
+    .trim()
+    .escape(),
+  body("password")
+    .exists({ checkFalsy: true })
+    .withMessage("Password Cannot Be Empty!")
+    .bail()
+    .trim()
+    .escape(),
+  customValidationError,
+];
+
+// Validate product creation
 const validateProductCreation = [
   body("name")
     .exists({ checkFalsy: true })
@@ -103,6 +122,7 @@ const validateProductCreation = [
   customValidationError,
 ];
 
+// Validate product update
 const validateProductUpdate = [
   body("name")
     .optional({ nullable: true })
@@ -133,6 +153,7 @@ const validateProductUpdate = [
 
 module.exports = {
   validateRegisteration,
+  validateLogin,
   validateProductCreation,
   validateProductUpdate,
 };

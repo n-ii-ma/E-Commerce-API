@@ -5,7 +5,10 @@ const authRouter = express.Router();
 const { register, login, logout } = require("../controllers/authController");
 
 // Validation
-const { validateRegisteration } = require("../middlewares/validator");
+const {
+  validateRegisteration,
+  validateLogin,
+} = require("../middlewares/validator");
 
 // Authentication check
 const {
@@ -22,7 +25,7 @@ authRouter.post(
 );
 
 // Login user
-authRouter.post("/login", checkAuthenticated, login);
+authRouter.post("/login", checkAuthenticated, validateLogin, login);
 
 // Logout user
 authRouter.post("/logout", checkNotAuthenticated, logout);
