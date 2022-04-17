@@ -29,7 +29,7 @@ const register = async (req, res, next) => {
   }
 };
 
-// Login
+// Login user
 const login = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
@@ -58,7 +58,7 @@ const login = (req, res, next) => {
   })(req, res, next);
 };
 
-// Logout
+// Logout user
 const logout = (req, res, next) => {
   req.logout();
   // Delete session and clear cookie

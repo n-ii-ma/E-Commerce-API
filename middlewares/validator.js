@@ -66,4 +66,73 @@ const validateRegisteration = [
   customValidationError,
 ];
 
-module.exports = { validateRegisteration };
+const validateProductCreation = [
+  body("name")
+    .exists({ checkFalsy: true })
+    .withMessage("Product Name Cannot Be Empty!")
+    .bail()
+    .isLength({ max: 64 })
+    .withMessage("Product Name Must Be Less than 64 Characters Long!")
+    .bail()
+    .trim()
+    .escape(),
+  body("description")
+    .exists({ checkFalsy: true })
+    .withMessage("Product Description Cannot Be Empty!")
+    .bail()
+    .trim()
+    .escape(),
+  body("quantity")
+    .optional({ nullable: true })
+    .isNumeric()
+    .withMessage("Quantity Must Be a Number!")
+    .bail()
+    .trim()
+    .escape(),
+  body("price")
+    .exists({ checkFalsy: true })
+    .withMessage("Price Cannot Be Empty!")
+    .bail()
+    .isNumeric()
+    .withMessage("Price Must Be a Number!")
+    .bail()
+    .trim()
+    .escape(),
+  body("img_urls").optional({ nullable: true }),
+  body("specs").optional({ nullable: true }),
+  customValidationError,
+];
+
+const validateProductUpdate = [
+  body("name")
+    .optional({ nullable: true })
+    .isLength({ max: 64 })
+    .withMessage("Product Name Must Be Less than 64 Characters Long!")
+    .bail()
+    .trim()
+    .escape(),
+  body("description").optional({ nullable: true }).trim().escape(),
+  body("quantity")
+    .optional({ nullable: true })
+    .isNumeric()
+    .withMessage("Quantity Must Be a Number!")
+    .bail()
+    .trim()
+    .escape(),
+  body("price")
+    .optional({ nullable: true })
+    .isNumeric()
+    .withMessage("Price Must Be a Number!")
+    .bail()
+    .trim()
+    .escape(),
+  body("img_urls").optional({ nullable: true }),
+  body("specs").optional({ nullable: true }),
+  customValidationError,
+];
+
+module.exports = {
+  validateRegisteration,
+  validateProductCreation,
+  validateProductUpdate,
+};

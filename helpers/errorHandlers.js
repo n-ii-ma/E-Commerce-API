@@ -5,4 +5,11 @@ const uniqueViolationError = (next) => {
   next(error);
 };
 
-module.exports = { uniqueViolationError };
+// Invalid id error
+const invalidIdError = (next) => {
+  const error = new Error("Invalid ID!");
+  error.status = 404;
+  next(error);
+};
+
+module.exports = { uniqueViolationError, invalidIdError };

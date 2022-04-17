@@ -13,7 +13,7 @@ const {
   checkNotAuthenticated,
 } = require("../middlewares/authMiddleware");
 
-// Create user
+// Register new user
 authRouter.post(
   "/register",
   checkAuthenticated,

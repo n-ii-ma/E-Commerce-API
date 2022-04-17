@@ -89,8 +89,10 @@ app.use(
 
 // Routes
 const authRouter = require("./routes/auth");
+const productsRouter = require("./routes/products");
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/products", productsRouter);
 
 // Error handling
 app.use((err, req, res, next) => {
