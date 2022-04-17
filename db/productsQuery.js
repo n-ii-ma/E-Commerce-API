@@ -1,7 +1,7 @@
 const insertProduct =
   "INSERT INTO products (name, description, quantity, price, img_urls, specs) VALUES ($1, $2, $3, $4, $5, $6)";
 
-const selectProducts = "SELECT * FROM products";
+const selectProducts = "SELECT * FROM products ORDER BY price";
 
 const selectProductById = "SELECT * FROM products WHERE product_id = $1";
 
