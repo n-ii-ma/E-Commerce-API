@@ -84,6 +84,81 @@ const validateLogin = [
   customValidationError,
 ];
 
+// Validate user's private info update
+const validateCredentialsUpdate = [
+  body("first_name")
+    .optional({ nullable: true })
+    .isLength({ max: 32 })
+    .withMessage("First Name Must Be Less than 32 Characters Long!")
+    .bail()
+    .trim()
+    .escape(),
+  body("last_name")
+    .optional({ nullable: true })
+    .isLength({ max: 32 })
+    .withMessage("Last Name Must Be Less than 32 Characters Long!")
+    .bail()
+    .trim()
+    .escape(),
+  body("email")
+    .optional({ nullable: true })
+    .isEmail()
+    .withMessage("Email Must Be a Valid Email!")
+    .bail()
+    .isLength({ min: 5, max: 64 })
+    .withMessage("Email Must Be Between 5 to 64 Characters Long!")
+    .bail()
+    .normalizeEmail()
+    .trim()
+    .escape(),
+  body("password")
+    .optional({ nullable: true })
+    .isLength({ min: 8, max: 255 })
+    .withMessage("Password Must Be Between 8 to 255 Characters Long!")
+    .bail()
+    .matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,255}$/)
+    .withMessage(
+      "Password Must Contain at least One Number, One Lowercase, and One Uppercase Character!"
+    )
+    .bail()
+    .trim()
+    .escape(),
+  customValidationError,
+];
+
+// Validate user's address info update
+const validateAddressUpdate = [
+  body("address")
+    .optional({ nullable: true })
+    .isLength({ min: 5, max: 255 })
+    .withMessage("Address Must Be Between 5 to 255 Characters Long!")
+    .bail()
+    .trim()
+    .escape(),
+  body("city")
+    .optional({ nullable: true })
+    .isLength({ max: 32 })
+    .withMessage("City Name Must Be Less than 32 Characters Long!")
+    .bail()
+    .trim()
+    .escape(),
+  body("postal_code")
+    .optional({ nullable: true })
+    .isLength({ min: 10, max: 10 })
+    .withMessage("Postal Code Must Be 10 Characters Long!")
+    .bail()
+    .trim()
+    .escape(),
+  body("phone")
+    .optional({ nullable: true })
+    .isLength({ min: 10, max: 20 })
+    .withMessage("Phone Number Must Be Between 10 to 20 Characters Long!")
+    .bail()
+    .trim()
+    .escape(),
+  customValidationError,
+];
+
 // Validate product creation
 const validateProductCreation = [
   body("name")
@@ -154,6 +229,8 @@ const validateProductUpdate = [
 module.exports = {
   validateRegisteration,
   validateLogin,
+  validateCredentialsUpdate,
+  validateAddressUpdate,
   validateProductCreation,
   validateProductUpdate,
 };

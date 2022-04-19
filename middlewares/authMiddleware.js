@@ -31,7 +31,7 @@ const checkAdmin = (req, res, next) => {
 
 // Check if the user is the owner of the account (already logged in user) or the admin
 const checkOwnerOrAdmin = (req, res, next) => {
-  if (req.user.user_id === req.params.id || req.user.admin) {
+  if (req.user.user_id === req.params.user_id || req.user.admin) {
     next();
   } else {
     res
