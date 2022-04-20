@@ -226,6 +226,23 @@ const validateProductUpdate = [
   customValidationError,
 ];
 
+// Validate products being added to cart
+const validateCartProducts = [
+  body("product_id")
+    .exists({ checkFalsy: true })
+    .withMessage("Product ID Cannot Be Empty!")
+    .bail()
+    .trim()
+    .escape(),
+  body("quantity")
+    .exists({ checkFalsy: true })
+    .withMessage("Product Quantity Cannot Be Empty!")
+    .bail()
+    .trim()
+    .escape(),
+  customValidationError,
+];
+
 module.exports = {
   validateRegisteration,
   validateLogin,
@@ -233,4 +250,5 @@ module.exports = {
   validateAddressUpdate,
   validateProductCreation,
   validateProductUpdate,
+  validateCartProducts,
 };

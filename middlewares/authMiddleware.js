@@ -40,9 +40,21 @@ const checkOwnerOrAdmin = (req, res, next) => {
   }
 };
 
+// Check if the user is the owner of the cart
+const checkCartOwner = (req, res, next) => {
+  if (req.user.cart_id === req.params.cart_id) {
+    next();
+  } else {
+    res
+      .status(401)
+      .json({ message: "Not Authorized to View or Edit the Content!" });
+  }
+};
+
 module.exports = {
   checkAuthenticated,
   checkNotAuthenticated,
   checkAdmin,
   checkOwnerOrAdmin,
+  checkCartOwner,
 };
