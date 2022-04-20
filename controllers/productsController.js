@@ -35,8 +35,8 @@ const createProduct = async (req, res, next) => {
 // Get all products
 const getProducts = async (req, res, next) => {
   try {
-    const product = await db.query(selectProducts);
-    res.status(200).json(product.rows);
+    const products = await db.query(selectProducts);
+    res.status(200).json(products.rows);
   } catch (err) {
     next(err);
   }
