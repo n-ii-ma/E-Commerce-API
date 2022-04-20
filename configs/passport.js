@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 
 // Queries
 const { findUserByEmail, findUserById } = require("../db/authQuery");
+const { selectCartByUserId } = require("../db/cartsQuery");
 
 // Passport initialization
 const initialize = (passport) => {
@@ -54,6 +55,11 @@ const initialize = (passport) => {
       if (!user) {
         return done(null, false);
       } else {
+        // Add the cart_id property to req.user
+        const cart = await db.query(selectCartByUserId, [user.user_id]);
+        const cart_id = cart.rows[0].cart_id;
+        user.cart_id = cart_id;
+
         return done(null, user);
       }
     } catch (err) {
