@@ -91,10 +91,12 @@ app.use(
 const authRouter = require("./routes/auth");
 const productsRouter = require("./routes/products");
 const usersRouter = require("./routes/users");
+const cartsRouter = require("./routes/carts");
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/carts", cartsRouter);
 
 // Error handling
 app.use((err, req, res, next) => {
