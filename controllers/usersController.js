@@ -9,6 +9,7 @@ const {
   updateUserAddressById,
   deleteUserById,
 } = require("../db/usersQuery");
+const { deleteCartByUserId } = require("../db/cartsQuery");
 
 // Error handlers
 const {
@@ -54,7 +55,7 @@ const updateUserCredentials = async (req, res, next) => {
   const { first_name, last_name, email, password } = req.body;
 
   try {
-    // Check if product with the given id exists
+    // Check if user with the given id exists
     const user = await db.query(selectUserById, [user_id]);
     if (!user.rows.length) {
       invalidIdError(next);
@@ -93,7 +94,7 @@ const updateUserAddress = async (req, res, next) => {
   const { address, city, postal_code, phone } = req.body;
 
   try {
-    // Check if product with the given id exists
+    // Check if user with the given id exists
     const user = await db.query(selectUserById, [user_id]);
     if (!user.rows.length) {
       invalidIdError(next);
@@ -123,13 +124,14 @@ const deleteUser = async (req, res, next) => {
   const user_id = req.params.user_id;
 
   try {
-    // Check if product with the given id exists
+    // Check if user with the given id exists
     const user = await db.query(selectUserById, [user_id]);
     if (!user.rows.length) {
       invalidIdError(next);
     } else {
+      // First delete the user's cart and then the user itself
+      await db.query(deleteCartByUserId, [user_id]);
       await db.query(deleteUserById, [user_id]);
-
       // If the user is Admin, don't log out or delete session after user deletion
       if (req.user.admin) {
         res.status(200).json({ message: "User Deleted Succesfully" });
