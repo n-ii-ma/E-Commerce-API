@@ -4,6 +4,7 @@ const passport = require("passport");
 
 // Queries
 const { createUser } = require("../db/authQuery");
+const { insertCart } = require("../db/cartsQuery");
 
 // Error handlers
 const { uniqueViolationError } = require("../helpers/errorHandlers");
@@ -16,7 +17,14 @@ const register = async (req, res, next) => {
     // Hash the input password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await db.query(createUser, [first_name, last_name, email, hashedPassword]);
+    const newUser = await db.query(createUser, [
+      first_name,
+      last_name,
+      email,
+      hashedPassword,
+    ]);
+    // Create a cart for the registered user
+    await db.query(insertCart, [newUser.rows[0].user_id]);
 
     res.status(201).json({ message: "User Created Successfully" });
   } catch (err) {
