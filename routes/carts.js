@@ -23,7 +23,13 @@ const {
 cartsRouter.get("/", checkNotAuthenticated, checkAdmin, getCarts);
 
 // Add product to cart
-cartsRouter.post("/:cart_id", validateCartProducts, addProductToCart);
+cartsRouter.post(
+  "/:cart_id",
+  checkNotAuthenticated,
+  checkCartOwner,
+  validateCartProducts,
+  addProductToCart
+);
 
 // Get the products from a user's cart
 cartsRouter.get(
