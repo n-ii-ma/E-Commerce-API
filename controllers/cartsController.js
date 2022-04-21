@@ -188,6 +188,7 @@ const checkoutCart = async (req, res, next) => {
         order: {
           order_number: order.rows[0].order_number,
           total_price: order.rows[0].total_price,
+          status: order.rows[0].status,
         },
       });
     }
