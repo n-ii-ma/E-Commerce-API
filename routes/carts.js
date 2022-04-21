@@ -7,6 +7,7 @@ const {
   addProductToCart,
   getCartProducts,
   updateCartProduct,
+  deleteCartProduct,
 } = require("../controllers/cartsController");
 
 // Validation
@@ -50,5 +51,11 @@ cartsRouter.put(
 );
 
 // Delete product from cart
+cartsRouter.delete(
+  "/:cart_id/products/:product_id",
+  checkNotAuthenticated,
+  checkCartOwner,
+  deleteCartProduct
+);
 
 module.exports = cartsRouter;

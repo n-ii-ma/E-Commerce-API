@@ -10,6 +10,10 @@ const selectProductFromCart =
 const updateCartProductsById =
   "UPDATE carts_products SET quantity = $1 WHERE cart_id = $2 AND product_id = $3";
 
+const deleteProductFromCart =
+  "DELETE FROM carts_products WHERE cart_id = $1 AND product_id = $2";
+
+// Delete all the products in user's cart when that user is being deleted
 const deleteAllCartProducts =
   "DELETE FROM carts_products USING carts WHERE carts.cart_id = carts_products.cart_id AND carts.user_id = $1";
 
@@ -18,5 +22,6 @@ module.exports = {
   selectCartProducts,
   selectProductFromCart,
   updateCartProductsById,
+  deleteProductFromCart,
   deleteAllCartProducts,
 };

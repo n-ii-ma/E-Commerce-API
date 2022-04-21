@@ -7,6 +7,7 @@ const {
   selectCartProducts,
   selectProductFromCart,
   updateCartProductsById,
+  deleteProductFromCart,
 } = require("../db/cartsProductsQuery");
 const { selectUserById } = require("../db/usersQuery");
 
@@ -114,10 +115,36 @@ const updateCartProduct = async (req, res, next) => {
 };
 
 // Delete product from cart
+const deleteCartProduct = async (req, res, next) => {
+  const { cart_id, product_id } = req.params;
+
+  try {
+    // Check if the product that's being deleted is actually in the user's cart
+    const product = await db.query(selectProductFromCart, [
+      cart_id,
+      product_id,
+    ]);
+    if (!product.rows.length) {
+      unavailableProductError(next);
+    } else {
+      await db.query(deleteProductFromCart, [cart_id, product_id]);
+      res.status(200).json({ message: "Product Deleted from Cart" });
+    }
+  } catch (err) {
+    // If UUID is invalid postgres will throw the 'INVALID TEXT REPRESENTATION' error
+    // Make the error more specific to UUID by accessing err.routine == "string_to_uuid"
+    if (err.code == "22P02" && err.routine == "string_to_uuid") {
+      invalidCartProductIdError(next);
+    } else {
+      next(err);
+    }
+  }
+};
 
 module.exports = {
   getCarts,
   addProductToCart,
   getCartProducts,
   updateCartProduct,
+  deleteCartProduct,
 };
