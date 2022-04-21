@@ -10,12 +10,15 @@ const {
   deleteProductFromCart,
 } = require("../db/cartsProductsQuery");
 const { selectUserById } = require("../db/usersQuery");
+const { insertOrder } = require("../db/ordersQuery");
+const { insertProductIntoOrder } = require("../db/ordersProductsQuery");
 
 // Error handlers
 const {
   duplicateProductError,
   invalidIdError,
   invalidCartProductIdError,
+  emptyCartError,
   unavailableProductError,
 } = require("../helpers/errorHandlers");
 
@@ -36,7 +39,7 @@ const addProductToCart = async (req, res, next) => {
 
   try {
     await db.query(insertProductIntoCart, [cart_id, product_id, quantity]);
-    res.status(200).json({ message: "Product Added to Cart" });
+    res.status(201).json({ message: "Product Added to Cart" });
   } catch (err) {
     // If UUID is invalid postgres will throw the 'INVALID TEXT REPRESENTATION' error
     // Make the error more specific to UUID by accessing err.routine == "string_to_uuid"
@@ -69,7 +72,7 @@ const getCartProducts = async (req, res, next) => {
 
     const products = await db.query(selectCartProducts, [user_id]);
     if (!products.rows.length) {
-      res.status(200).json({ message: "Cart Is Empty" });
+      emptyCartError(next);
     } else {
       res.status(200).json(products.rows);
     }
@@ -141,10 +144,63 @@ const deleteCartProduct = async (req, res, next) => {
   }
 };
 
+// Checkout
+const checkoutCart = async (req, res, next) => {
+  const cart_id = req.params.cart_id;
+  const user_id = req.user.user_id;
+
+  try {
+    // Check if cart isn't empty
+    const cart = await db.query(selectCartProducts, [user_id]);
+    if (!cart.rows.length) {
+      emptyCartError(next);
+    } else {
+      // Calculate the total price of the products based on their quantity
+      const total_price = cart.rows
+        .reduce((acc, item) => {
+          return acc + parseFloat(item.price) * item.quantity;
+        }, 0)
+        .toFixed(2);
+
+      // Create new order
+      const order = await db.query(insertOrder, [
+        user_id,
+        total_price,
+        "Complete",
+      ]);
+      const order_id = order.rows[0].order_id;
+
+      // Move products from cart to order history
+      await Promise.all(
+        cart.rows.map(async (product) => {
+          await db.query(insertProductIntoOrder, [
+            order_id,
+            product.product_id,
+            product.quantity,
+          ]);
+          // Delete products from cart after adding them to order history (empty cart)
+          await db.query(deleteProductFromCart, [cart_id, product.product_id]);
+        })
+      );
+
+      res.status(201).json({
+        message: "Order Submitted Successfully",
+        order: {
+          order_number: order.rows[0].order_number,
+          total_price: order.rows[0].total_price,
+        },
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getCarts,
   addProductToCart,
   getCartProducts,
   updateCartProduct,
   deleteCartProduct,
+  checkoutCart,
 };

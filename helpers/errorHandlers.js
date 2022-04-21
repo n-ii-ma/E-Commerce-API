@@ -26,6 +26,13 @@ const invalidCartProductIdError = (next) => {
   next(error);
 };
 
+// When cart is empty
+const emptyCartError = (next) => {
+  const error = new Error("Cart Is Empty!");
+  error.status = 400;
+  next(error);
+};
+
 // Product not available in cart
 const unavailableProductError = (next) => {
   const error = new Error("Product Not Avaialable in Cart!");
@@ -38,5 +45,6 @@ module.exports = {
   duplicateProductError,
   invalidIdError,
   invalidCartProductIdError,
+  emptyCartError,
   unavailableProductError,
 };

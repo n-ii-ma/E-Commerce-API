@@ -8,6 +8,7 @@ const {
   getCartProducts,
   updateCartProduct,
   deleteCartProduct,
+  checkoutCart,
 } = require("../controllers/cartsController");
 
 // Validation
@@ -56,6 +57,14 @@ cartsRouter.delete(
   checkNotAuthenticated,
   checkCartOwner,
   deleteCartProduct
+);
+
+// Checkout
+cartsRouter.post(
+  "/:cart_id/checkout",
+  checkNotAuthenticated,
+  checkCartOwner,
+  checkoutCart
 );
 
 module.exports = cartsRouter;
