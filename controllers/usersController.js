@@ -36,6 +36,10 @@ const getUser = async (req, res, next) => {
     if (!user.rows.length) {
       invalidIdError(next);
     } else {
+      // Add the cart_id property to the retrieved user object if the current user id matches the provided id in the parameter
+      user.rows[0].cart_id =
+        user_id === req.user.user_id ? req.user.cart_id : undefined;
+
       res.status(200).json(user.rows[0]);
     }
   } catch (err) {
