@@ -19,9 +19,16 @@ const invalidIdError = (next) => {
   next(error);
 };
 
-// Invalid id error for when an incorrect cart and/or product id is provided
+// Invalid id error for when an incorrect product id is provided in cart
 const invalidCartProductIdError = (next) => {
-  const error = new Error("Invalid Cart and/or Product ID!");
+  const error = new Error("Invalid Product ID!");
+  error.status = 404;
+  next(error);
+};
+
+// Product not available in cart
+const unavailableProductError = (next) => {
+  const error = new Error("Product Not Avaialable in Cart!");
   error.status = 404;
   next(error);
 };
@@ -31,4 +38,5 @@ module.exports = {
   duplicateProductError,
   invalidIdError,
   invalidCartProductIdError,
+  unavailableProductError,
 };

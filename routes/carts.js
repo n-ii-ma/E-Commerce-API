@@ -6,6 +6,7 @@ const {
   getCarts,
   addProductToCart,
   getCartProducts,
+  updateCartProduct,
 } = require("../controllers/cartsController");
 
 // Validation
@@ -40,6 +41,13 @@ cartsRouter.get(
 );
 
 // Update product quantity in cart
+cartsRouter.put(
+  "/:cart_id",
+  checkNotAuthenticated,
+  checkCartOwner,
+  validateCartProducts,
+  updateCartProduct
+);
 
 // Delete product from cart
 
