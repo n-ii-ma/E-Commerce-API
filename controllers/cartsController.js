@@ -1,11 +1,11 @@
 const db = require("../db/index");
 
 // Queries
+const { selectCarts } = require("../db/cartsQuery");
 const {
-  selectCarts,
   insertProductIntoCart,
   selectCartProducts,
-} = require("../db/cartsQuery");
+} = require("../db/cartsProductsQuery");
 const { selectUserById } = require("../db/usersQuery");
 
 // Error handlers
