@@ -40,6 +40,13 @@ const unavailableProductError = (next) => {
   next(error);
 };
 
+// When order record is empty
+const emptyOrderRecord = (next) => {
+  const error = new Error("Order Record Is Empty!");
+  error.status = 404;
+  next(error);
+};
+
 module.exports = {
   uniqueViolationError,
   duplicateProductError,
@@ -47,4 +54,5 @@ module.exports = {
   invalidCartProductIdError,
   emptyCartError,
   unavailableProductError,
+  emptyOrderRecord,
 };

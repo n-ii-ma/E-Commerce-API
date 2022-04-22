@@ -51,10 +51,41 @@ const checkCartOwner = (req, res, next) => {
   }
 };
 
+// Check if the user accessing the order details is the owner of the order
+const db = require("../db/index");
+const { checkOrderOwnerById } = require("../db/ordersQuery");
+
+const checkOrderOwner = async (req, res, next) => {
+  const order_id = req.params.order_id;
+  const user_id = req.user.user_id;
+
+  try {
+    const owner = await db.query(checkOrderOwnerById, [order_id, user_id]);
+    if (!owner.rows.length) {
+      res
+        .status(401)
+        .json({ message: "Not Authorized to View or Edit the Content!" });
+    } else {
+      next();
+    }
+  } catch (err) {
+    // If UUID is invalid postgres will throw the 'INVALID TEXT REPRESENTATION' error
+    // Make the error more specific to UUID by accessing err.routine == "string_to_uuid"
+    if (err.code == "22P02" && err.routine == "string_to_uuid") {
+      res
+        .status(401)
+        .json({ message: "Not Authorized to View or Edit the Content!" });
+    } else {
+      next(err);
+    }
+  }
+};
+
 module.exports = {
   checkAuthenticated,
   checkNotAuthenticated,
   checkAdmin,
   checkOwnerOrAdmin,
   checkCartOwner,
+  checkOrderOwner,
 };
