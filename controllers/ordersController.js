@@ -11,7 +11,7 @@ const { selectOrderProductsByOrderId } = require("../db/ordersProductsQuery");
 
 // Error handlers
 const {
-  emptyOrderRecord,
+  emptyOrderRecordError,
   invalidIdError,
 } = require("../helpers/errorHandlers");
 
@@ -21,7 +21,7 @@ const getOrders = async (req, res, next) => {
     // Check if order record isn't empty
     const orders = await db.query(selectOrders);
     if (!orders.rows.length) {
-      emptyOrderRecord(next);
+      emptyOrderRecordError(next);
     } else {
       res.status(200).json(orders.rows);
     }
@@ -43,7 +43,7 @@ const getOrdersByUserId = async (req, res, next) => {
       // Check if order record isn't empty
       const orders = await db.query(selectOrdersByUserId, [user_id]);
       if (!orders.rows.length) {
-        emptyOrderRecord(next);
+        emptyOrderRecordError(next);
       } else {
         res.status(200).json(orders.rows);
       }

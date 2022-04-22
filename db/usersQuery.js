@@ -11,10 +11,15 @@ const updateUserAddressById =
 
 const deleteUserById = "DELETE FROM users WHERE user_id = $1";
 
+// Check if shipping address has been provided in the user info
+const checkAddress =
+  "SELECT * FROM users WHERE address IS NOT NULL AND city IS NOT NULL AND postal_code IS NOT NULL AND phone IS NOT NULL AND user_id = $1";
+
 module.exports = {
   selectUsers,
   selectUserById,
   updateUserCredentialsById,
   updateUserAddressById,
   deleteUserById,
+  checkAddress,
 };

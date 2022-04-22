@@ -40,8 +40,14 @@ const unavailableProductError = (next) => {
   next(error);
 };
 
+const missingAddressError = (next) => {
+  const error = new Error("Shipping Address Has Not Been Provided!");
+  error.status = 400;
+  next(error);
+};
+
 // When order record is empty
-const emptyOrderRecord = (next) => {
+const emptyOrderRecordError = (next) => {
   const error = new Error("Order Record Is Empty!");
   error.status = 404;
   next(error);
@@ -54,5 +60,6 @@ module.exports = {
   invalidCartProductIdError,
   emptyCartError,
   unavailableProductError,
-  emptyOrderRecord,
+  missingAddressError,
+  emptyOrderRecordError,
 };
