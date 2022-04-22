@@ -11,6 +11,8 @@ const {
 } = require("../db/usersQuery");
 const { deleteCartByUserId } = require("../db/cartsQuery");
 const { deleteAllCartProducts } = require("../db/cartsProductsQuery");
+const { deleteOrderByUserId } = require("../db/ordersQuery");
+const { deleteAllOrderProducts } = require("../db/ordersProductsQuery");
 
 // Error handlers
 const {
@@ -134,10 +136,17 @@ const deleteUser = async (req, res, next) => {
     if (!user.rows.length) {
       invalidIdError(next);
     } else {
-      // First delete all the products in user's cart, then delete the user's cart and finally delete the user itself
+      // First, delete all of the products in user's order history
+      await db.query(deleteAllOrderProducts, [user_id]);
+      // Second, delete all of the order history of that user
+      await db.query(deleteOrderByUserId, [user_id]);
+      // Third, delete all of the products in user's cart
       await db.query(deleteAllCartProducts, [user_id]);
+      // Fourth, delete the cart of that user
       await db.query(deleteCartByUserId, [user_id]);
+      // Finally, delete the user
       await db.query(deleteUserById, [user_id]);
+
       // If the user is Admin, don't log out or delete session after user deletion
       if (req.user.admin) {
         res.status(200).json({ message: "User Deleted Succesfully" });
