@@ -26,7 +26,7 @@ const createProduct = async (req, res, next) => {
       specs,
     ]);
 
-    res.status(201).json({ message: "Product Added Successfully" });
+    res.status(201).json({ message: "Product Created Successfully" });
   } catch (err) {
     next(err);
   }
