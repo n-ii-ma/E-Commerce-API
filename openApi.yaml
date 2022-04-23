@@ -1,0 +1,1132 @@
+openapi: 3.0.3
+info:
+  title: E-Commerce API
+  version: 1.0.0
+  description: A RESTful API Built with Express and PostgreSQL for an E-Commerce App.
+  contact:
+    email: nimazarei53@gmail.com
+    name: the Developer
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+externalDocs:
+  description: GitHub Repository
+  url: https://github.com/n-ii-ma/E-Commerce-API
+servers:
+  - url: https://e-commerce-pern.herokuapp.com
+paths:
+  /api/v1/auth/register:
+    post:
+      summary: Register a New User
+      description: Register a new user and store their information in the database.
+      operationId: register
+      requestBody:
+        description: A New User
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+            example:
+              first_name: Bruce
+              last_name: Wayne
+              email: batman@gmail.com
+              password: Darkknight1
+      responses:
+        '201':
+          description: Successfully Created User
+          content:
+            application/json:
+              examples:
+                auth:
+                  value: |-
+                    {
+                        "message": "User Created Successfully"
+                    }
+        '400':
+          description: Validation Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Auth
+  /api/v1/auth/login:
+    post:
+      summary: Log into an Existing Account
+      description: Log in users by sending their credentials for validation.
+      operationId: login
+      requestBody:
+        description: User Credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+            example:
+              email: batman@gmail.com
+              password: Darkknight1
+      responses:
+        '200':
+          description: Successfully Logged In
+          content:
+            application/json:
+              examples:
+                auth:
+                  value: |-
+                    {
+                        "message": "Login Successful",
+                        "user": {
+                            "user_id": "eef9e7c4-2a59-41c9-89d8-b0242b633876",
+                            "email": "batman@gmail.com"
+                        }
+                    }
+        '400':
+          description: Validation Error
+        '401':
+          description: Authorization Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Auth
+  /api/v1/auth/logout:
+    post:
+      summary: Log out a Logged in User
+      description: >-
+        Log out users out of their accounts and delete their session and cookie
+        data.
+      operationId: logout
+      responses:
+        '200':
+          description: Successfully Logged Out
+          content:
+            application/json:
+              examples:
+                auth:
+                  value: |-
+                    {
+                        "message": "Logout Successful"
+                    }
+        '401':
+          description: Authorization Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Auth
+  /api/v1/users:
+    get:
+      summary: Get All of the Users' Data (ADMIN)
+      description: Retrieve all of the users' information from the database.
+      operationId: getUsers
+      responses:
+        '200':
+          description: Successfully Retrieved Users' Data
+        '401':
+          description: Authorization Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Users
+  /api/v1/users/{user_id}:
+    get:
+      summary: Get a User's Data (ADMIN / OWNER)
+      description: Retrieve a user's information matching the provided user ID.
+      operationId: getUser
+      parameters:
+        - $ref: '#/components/parameters/userParam'
+      responses:
+        '200':
+          description: Successfully Retrieved User's Data
+          content:
+            application/json:
+              examples:
+                user:
+                  value: |-
+                    {
+                        "user_id": "eef9e7c4-2a59-41c9-89d8-b0242b633876",
+                        "first_name": "Bruce",
+                        "last_name": "Wayne",
+                        "email": "batman@gmail.com",
+                        "address": null,
+                        "city": null,
+                        "postal_code": null,
+                        "phone": null,
+                        "password": "$2b$10$drRkUQalBmIkrP1DzGt33edKInUtaudpGCEfOiqE8r6cS43N3l1HO",
+                        "admin": false,
+                        "created_at": "2022-04-22T15:04:42.848Z",
+                        "cart_id": "0c970fb3-82f3-425a-aa16-a1655688244a"
+                    }
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Users
+    delete:
+      summary: Delete a User (ADMIN / OWNER)
+      description: Delete all of a user's records matching the provided user ID.
+      operationId: deleteUser
+      parameters:
+        - $ref: '#/components/parameters/userParam'
+      responses:
+        '200':
+          description: Successfully Deleted User
+          content:
+            application/json:
+              examples:
+                user:
+                  value: |-
+                    {
+                        "message": "User Deleted Succesfully"
+                    }
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Users
+  /api/v1/users/credentials/{user_id}:
+    put:
+      summary: Update a User's Private Info (ADMIN / OWNER)
+      description: Update a user's credentials matching the provided user ID.
+      operationId: updateUserCredentials
+      parameters:
+        - $ref: '#/components/parameters/userParam'
+      requestBody:
+        description: Update Values
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserCredentials'
+            example:
+              first_name: Bruce
+              last_name: Wayne
+              email: vengeance@gmail.com
+              password: Darkknight1
+      responses:
+        '200':
+          description: Successfully Updated User's Private Data
+          content:
+            application/json:
+              examples:
+                user:
+                  value: |-
+                    {
+                        "message": "User Updated Succesfully"
+                    }
+        '400':
+          description: Validation Error
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Users
+  /api/v1/users/address/{user_id}:
+    put:
+      summary: Update a User's Address Info (ADMIN / OWNER)
+      description: Update a user's address matching the provided user ID.
+      operationId: updateUserAddress
+      parameters:
+        - $ref: '#/components/parameters/userParam'
+      requestBody:
+        description: Update Values
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserAddress'
+            example:
+              address: Wayne Manor, 1007 Mountain Drive
+              city: Gotham
+              postal_code: '1234567890'
+              phone: 555-3655-333
+      responses:
+        '200':
+          description: Successfully Updated User's Address
+          content:
+            application/json:
+              examples:
+                user:
+                  value: |-
+                    {
+                        "message": "User Updated Succesfully"
+                    }
+        '400':
+          description: Validation Error
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Users
+  /api/v1/products:
+    get:
+      summary: Get All of the Products' Data
+      description: Retrieve all of the products' information from the database.
+      operationId: getProducts
+      responses:
+        '200':
+          description: Successfully Retrieved Products' Data
+          content:
+            application/json:
+              examples:
+                products:
+                  value: |-
+                    [
+                        {
+                            "product_id": "1f3e6302-c748-4efa-90fa-f4a7c164d5b2",
+                            "name": "Samsung Galaxy Note",
+                            "description": "The Samsung Galaxy Note is the first phone to go over the 5-inch screen mark with its 5.3-inch Super AMOLED screen with a resolution of the whopping 800 x 1280 pixels (WXGA), resulting in pixel density of 285ppi. It also stands out with its built in stylus and apps supporting pen input. Under the hood, a Samsung 1.4GHz dual-core chip powers Android 2.3 Gingerbread skinned with TouchWiz. The Galaxy Note also sports an 8-megapixel rear camera capable of 1080p video recording, while up front there is a 2-megapixel shooter.",
+                            "quantity": 50,
+                            "price": "50.00",
+                            "img_urls": [
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650176786/Galaxy%20Note%201/Samsung_Galaxy_Note_-_1.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650199020/Galaxy%20Note%201/Samsung_Galaxy_Note_-_2.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650177686/Galaxy%20Note%201/Samsung_Galaxy_Note_-_3.jpg"
+                            ],
+                            "specs": {
+                                "camera": [
+                                    {
+                                        "photo": "8MP",
+                                        "video": "1080p"
+                                    }
+                                ],
+                                "colors": [
+                                    "Black",
+                                    "Pink",
+                                    "White"
+                                ],
+                                "battery": "2500mAh",
+                                "display": [
+                                    {
+                                        "size": "5.3",
+                                        "resolution": "800 x 1280"
+                                    }
+                                ],
+                                "hardware": [
+                                    {
+                                        "ram": "1GB",
+                                        "chipset": "Exynos 4210 Dual"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "product_id": "574d2788-3e60-489d-a80a-a359ba8fe126",
+                            "name": "Samsung Galaxy Note II",
+                            "description": "The Samsung Galaxy Note II sports a slightly bigger, 5.5-inch HD Super AMOLED display with a resolution of 720 x 1280 pixels, Exynos 4412 processor that gets rid of the slight lag in the original Note, and best of all Android 4.1 Jelly Bean right out of the box. It is armed with an 8-megapixel back-side illuminated (BSI) rear camera and a 1.9-megapixel BSI front shooter and a humongous 3,100mAh battery that should get you through the day.",
+                            "quantity": 50,
+                            "price": "69.99",
+                            "img_urls": [
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650197420/Galaxy%20Note%202/Samsung_Galaxy_Note_II_-_1_fm83vv.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650197420/Galaxy%20Note%202/Samsung_Galaxy_Note_II_-_2_jvoess.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650199378/Galaxy%20Note%202/Samsung_Galaxy_Note_II_-_3_qqjfma.jpg"
+                            ],
+                            "specs": {
+                                "camera": [
+                                    {
+                                        "photo": "8MP",
+                                        "video": "1080p"
+                                    }
+                                ],
+                                "colors": [
+                                    "Titanium Gray",
+                                    "Marble White",
+                                    "Amber Brown",
+                                    "Ruby Wine",
+                                    "Pink",
+                                    "Blue"
+                                ],
+                                "battery": "3100mAh",
+                                "display": [
+                                    {
+                                        "size": "5.5",
+                                        "resolution": "720 x 1280"
+                                    }
+                                ],
+                                "hardware": [
+                                    {
+                                        "ram": "2GB",
+                                        "chipset": "Exynos 4412 Quad"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+        '500':
+          description: Internal Server Error
+      tags:
+        - Products
+    post:
+      summary: Create a New Product (ADMIN)
+      description: Create a new product and add it to the database.
+      operationId: createProduct
+      requestBody:
+        description: A New Product
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+            example:
+              name: Samsung Galaxy Note 3
+              description: >-
+                The Samsung Galaxy Note 3 is the first device ever to feature
+                3GB of RAM. With it, Samsung makes the jump to 1080p full HD
+                displays on phablets and it adopts a new textured back. The Note
+                3 features a larger than before 5.7” 1080p Super AMOLED display,
+                but it retains a more compact profile. There is a 13-megapixel
+                camera with improved flash, and of course an all new S Pen with
+                improved functionality.
+              quantity: 50
+              price: '89.99'
+              img_urls:
+                - >-
+                  https://res.cloudinary.com/de3kst1ud/image/upload/v1650198277/Galaxy%20Note%203/Samsung_Galaxy_Note_3_-_1_pn71o4.jpg
+                - >-
+                  https://res.cloudinary.com/de3kst1ud/image/upload/v1650198271/Galaxy%20Note%203/Samsung_Galaxy_Note_3_-_2_jsciqj.jpg
+                - >-
+                  https://res.cloudinary.com/de3kst1ud/image/upload/v1650198273/Galaxy%20Note%203/Samsung_Galaxy_Note_3_-_3_lvjq00.jpg
+              specs:
+                camera:
+                  - photo: 13MP
+                    video: 2160p
+                colors:
+                  - Black
+                  - White
+                  - Pink
+                  - Merlot Red
+                  - Rose Gold Black
+                  - Rose Gold White
+                battery: 3200mAh
+                display:
+                  - size: '5.7'
+                    resolution: 1080 x 1920
+                hardware:
+                  - ram: 3GB
+                    chipset: Snapdragon 800
+      responses:
+        '201':
+          description: Successfully Created Product
+          content:
+            application/json:
+              examples:
+                product:
+                  value: |-
+                    {
+                        "message": "Product Created Successfully"
+                    }
+        '400':
+          description: Validation Error
+        '401':
+          description: Authorization Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Products
+  /api/v1/products/{product_id}:
+    get:
+      summary: Get a Product's Data
+      description: Retrieve a product's information matching the provided product ID.
+      operationId: getProduct
+      parameters:
+        - $ref: '#/components/parameters/productParam'
+      responses:
+        '200':
+          description: Successfully Retrieved Product's Data
+          content:
+            application/json:
+              examples:
+                product:
+                  value: |-
+                    {
+                        "product_id": "244bd087-1e78-47f5-a3da-d783744d19a3",
+                        "name": "Samsung Galaxy Note 5",
+                        "description": "The Samsung Galaxy Note 5 adopts the glass and metal styling of the Galaxy S6, but in a larger, 5.7-inche form factor, and it features the signature S Pen stylus. The Note 5 sports the 14nm Exynos 7420 octa-core system chip with a whopping 4GB of LPDDR4 RAM and a 16-megapixel rear cam with OIS, while up front there is a 5-megapixel selfie shooter. The battery on the Note 5 is a 3000mAh juicer that is not user-removable.",
+                        "quantity": 50,
+                        "price": "159.99",
+                        "img_urls": [
+                            "https://res.cloudinary.com/de3kst1ud/image/upload/v1650201496/Galaxy%20Note%205/Samsung%20Galaxy%20Note%205%20-%201.jpg",
+                            "https://res.cloudinary.com/de3kst1ud/image/upload/v1650201732/Galaxy%20Note%205/Samsung_Galaxy_Note_5_-_2_hlknq6.jpg",
+                            "https://res.cloudinary.com/de3kst1ud/image/upload/v1650201730/Galaxy%20Note%205/Samsung_Galaxy_Note_5_-_3_pwvy9t.jpg"
+                        ],
+                        "specs": {
+                            "camera": [
+                                {
+                                    "photo": "16MP",
+                                    "video": "2160p"
+                                }
+                            ],
+                            "colors": [
+                                "Black Sapphire",
+                                "Gold Platinum",
+                                "Silver Titan",
+                                "White Pearl"
+                            ],
+                            "battery": "3000mAh",
+                            "display": [
+                                {
+                                    "size": "5.7",
+                                    "resolution": "1440 x 2560"
+                                }
+                            ],
+                            "hardware": [
+                                {
+                                    "ram": "4GB",
+                                    "chipset": "Exynos 7420 Octa"
+                                }
+                            ]
+                        }
+                    }
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Products
+    put:
+      summary: Update a Product's Data (ADMIN)
+      description: Update a product's information matching the provided product ID.
+      operationId: updateProduct
+      parameters:
+        - $ref: '#/components/parameters/productParam'
+      requestBody:
+        description: Update Values
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+            example:
+              name: Samsung Galaxy Note 9
+              description: >-
+                The Samsung Galaxy Note 9 is a feature-packed high-end phone
+                aimed at power users and productivity-minded individuals. Its
+                key stand-out features include the large Super AMOLED display,
+                the versatile dual-camera, the huge 4000mAh battery, and the
+                S-Pen digital stylus allowing you to take down notes and
+                annotate documents, as well as to control media playback and
+                flip between presentation slides remotely thanks to its wireless
+                connectivity. And with DeX mode, the Galaxy Note 9 can connect
+                to a TV or Monitor giving you a desktop-like environment for
+                work or play.
+              quantity: 50
+              price: '349.99'
+              img_urls:
+                - >-
+                  https://res.cloudinary.com/de3kst1ud/image/upload/v1650202981/Galaxy%20Note%209/Samsung_Galaxy_Note_9_-_1_zvdb27.jpg
+                - >-
+                  https://res.cloudinary.com/de3kst1ud/image/upload/v1650202980/Galaxy%20Note%209/Samsung_Galaxy_Note_9_-_2_oscmsq.jpg
+                - >-
+                  https://res.cloudinary.com/de3kst1ud/image/upload/v1650203078/Galaxy%20Note%209/Samsung_Galaxy_Note_9_-_3_b1rsrr.jpg
+              specs:
+                camera:
+                  - photo: 12MP
+                    video: 2160p
+                colors:
+                  - Metallic Copper
+                  - Lavender Purple
+                  - Ocean Blue
+                  - Midnight Black
+                  - Pure White
+                  - Alpine White
+                battery: 4000mAh
+                display:
+                  - size: '6.4'
+                    resolution: 1440 x 2960
+                hardware:
+                  - ram: 6GB / 8GB
+                    chipset: Exynos 9810
+      responses:
+        '200':
+          description: Successfully Updated Product's Data
+          content:
+            application/json:
+              examples:
+                product:
+                  value: |-
+                    {
+                        "message": "Product Updated Successfully"
+                    }
+        '400':
+          description: Validation Error
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Products
+    delete:
+      summary: Delete a Product (ADMIN)
+      description: Delete a product matching the provided product ID.
+      operationId: deleteProduct
+      parameters:
+        - $ref: '#/components/parameters/productParam'
+      responses:
+        '200':
+          description: Successfully Deleted Product
+          content:
+            application/json:
+              examples:
+                product:
+                  value: |-
+                    {
+                        "message": "Product Deleted Successfully"
+                    }
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Products
+  /api/v1/carts:
+    get:
+      summary: Get All of the Carts' Data (ADMIN)
+      description: Retrieve all of the users' carts information from the database.
+      operationId: getCarts
+      responses:
+        '200':
+          description: Successfully Retrieved Carts' Data
+        '400':
+          description: Empty Cart Error
+        '401':
+          description: Authorization Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Carts
+  /api/v1/carts/{cart_id}:
+    post:
+      summary: Add Product to Cart (OWNER)
+      description: Add a product to a user's cart matching the provided cart ID.
+      operationId: addProductToCart
+      parameters:
+        - $ref: '#/components/parameters/cartParam'
+      requestBody:
+        description: Product Values
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+            example:
+              product_id: bd38abae-420a-4fbf-97f1-fbb316726e1f
+              quantity: 1
+      responses:
+        '201':
+          description: Successfully Added Product to Cart
+          content:
+            application/json:
+              examples:
+                cart:
+                  value: |-
+                    {
+                        "message": "Product Added to Cart"
+                    }
+        '400':
+          description: Validation Error
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Carts
+    put:
+      summary: Update a Product's Quantity in Cart (OWNER)
+      description: >-
+        Update a product's quantity in the user's cart matching the provided
+        cart ID.
+      operationId: updateCartProduct
+      parameters:
+        - $ref: '#/components/parameters/cartParam'
+      requestBody:
+        description: Update Values
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+            example:
+              product_id: bd38abae-420a-4fbf-97f1-fbb316726e1f
+              quantity: 3
+      responses:
+        '200':
+          description: Successfully Updated Product's Quantity in Cart
+          content:
+            application/json:
+              examples:
+                cart:
+                  value: |-
+                    {
+                        "message": "Product Quantity Updated Successfully"
+                    }
+        '400':
+          description: Validation Error
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Carts
+  /api/v1/carts/{user_id}:
+    get:
+      summary: Get a User's Products from Cart (ADMIN / OWNER)
+      description: Retrieve the products from a user's cart matching the provided user ID.
+      operationId: getCartProducts
+      parameters:
+        - $ref: '#/components/parameters/userParam'
+      responses:
+        '200':
+          description: Successfully Retrieved Products from Cart
+          content:
+            application/json:
+              examples:
+                cart:
+                  value: |-
+                    [
+                        {
+                            "product_id": "81294da5-f1fe-4d5d-8da2-27c8a4dd0a38",
+                            "name": "Samsung Galaxy Note 8",
+                            "price": "219.99",
+                            "img_urls": [
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202227/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_1_hbaavf.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202229/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_2_vr91ku.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202227/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_3_euojga.jpg"
+                            ],
+                            "quantity": 1
+                        }
+                    ]
+        '400':
+          description: Empty Cart Error
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Carts
+  /api/v1/carts/{cart_id}/products/{product_id}:
+    delete:
+      summary: Delete a Product from Cart (OWNER)
+      description: >-
+        Delete a product from the user's cart matching the provided cart and
+        product IDs.
+      operationId: deleteCartProduct
+      parameters:
+        - $ref: '#/components/parameters/cartParam'
+        - $ref: '#/components/parameters/productParam'
+      responses:
+        '200':
+          description: Successfully Deleted Product from Cart
+          content:
+            application/json:
+              examples:
+                cart:
+                  value: |-
+                    {
+                        "message": "Product Deleted from Cart"
+                    }
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Carts
+  /api/v1/carts/{cart_id}/checkout:
+    post:
+      summary: Check Out Cart (OWNER)
+      description: Check out the products in cart, create an order, and clear the cart.
+      operationId: checkoutCart
+      parameters:
+        - $ref: '#/components/parameters/cartParam'
+      responses:
+        '201':
+          description: Successfully Checked Out Cart
+          content:
+            application/json:
+              examples:
+                cart:
+                  value: |-
+                    {
+                        "message": "Order Submitted Successfully",
+                        "order": {
+                            "order_number": 25,
+                            "total_price": "219.99",
+                            "status": "Complete"
+                        }
+                    }
+        '400':
+          description: Empty Cart Error / Missing Address Error
+        '401':
+          description: Authorization Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Carts
+  /api/v1/orders:
+    get:
+      summary: Get All of the Orders' Data (ADMIN)
+      description: Retrieve all of the users' orders information from the database.
+      operationId: getOrders
+      responses:
+        '200':
+          description: Successfully Retrieved Orders' Data
+        '401':
+          description: Authorization Error
+        '404':
+          description: Empty Order Record Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Orders
+  /api/v1/orders/{user_id}:
+    get:
+      summary: Get a User's Order History (ADMIN / OWNER)
+      description: Retrieve a user's order history matching the provided user ID.
+      operationId: getOrdersByUserId
+      parameters:
+        - $ref: '#/components/parameters/userParam'
+      responses:
+        '200':
+          description: Successfully Retrieved User's Order Data
+          content:
+            application/json:
+              examples:
+                orders:
+                  value: |-
+                    [
+                        {
+                            "order_number": 26,
+                            "order_id": "a5df7c77-fef5-4c8b-b66f-ba542c61b1b3",
+                            "total_price": "999.99",
+                            "status": "Complete",
+                            "created_at": "2022-04-23T05:34:12.497Z"
+                        },
+                        {
+                            "order_number": 25,
+                            "order_id": "e02e45e5-5635-4e16-b1bb-d93145373dc6",
+                            "total_price": "219.99",
+                            "status": "Complete",
+                            "created_at": "2022-04-23T04:59:52.879Z"
+                        }
+                    ]
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error / Empty Order Record Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Orders
+  /api/v1/orders/details/{order_id}:
+    get:
+      summary: Get a User's Order Details (OWNER)
+      description: Retrieve a user's order details matching the provided order ID.
+      operationId: getOrderProducts
+      parameters:
+        - $ref: '#/components/parameters/orderParam'
+      responses:
+        '200':
+          description: Successfully Retrieved Order Details
+          content:
+            application/json:
+              examples:
+                order:
+                  value: |-
+                    [
+                        {
+                            "product_id": "81294da5-f1fe-4d5d-8da2-27c8a4dd0a38",
+                            "name": "Samsung Galaxy Note 8",
+                            "quantity": 1,
+                            "price": "219.99",
+                            "img_urls": [
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202227/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_1_hbaavf.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202229/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_2_vr91ku.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202227/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_3_euojga.jpg"
+                            ]
+                        }
+                    ]
+        '401':
+          description: Authorization Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Orders
+  /api/v1/orders/review/{order_id}:
+    get:
+      summary: Get a User's Order Details as Admin (ADMIN)
+      description: >-
+        Allow Admin to retrieve a user's order details matching the provided
+        order ID.
+      operationId: getOrderProductsAsAdmin
+      parameters:
+        - $ref: '#/components/parameters/orderParam'
+      responses:
+        '200':
+          description: Successfully Retrieved Order Details
+          content:
+            application/json:
+              examples:
+                order:
+                  value: |-
+                    [
+                        {
+                            "product_id": "81294da5-f1fe-4d5d-8da2-27c8a4dd0a38",
+                            "name": "Samsung Galaxy Note 8",
+                            "quantity": 1,
+                            "price": "219.99",
+                            "img_urls": [
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202227/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_1_hbaavf.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202229/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_2_vr91ku.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202227/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_3_euojga.jpg"
+                            ]
+                        },
+                        {
+                            "product_id": "244bd087-1e78-47f5-a3da-d783744d19a3",
+                            "name": "Samsung Galaxy Note 5",
+                            "quantity": 1,
+                            "price": "159.99",
+                            "img_urls": [
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650201496/Galaxy%20Note%205/Samsung%20Galaxy%20Note%205%20-%201.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650201732/Galaxy%20Note%205/Samsung_Galaxy_Note_5_-_2_hlknq6.jpg",
+                                "https://res.cloudinary.com/de3kst1ud/image/upload/v1650201730/Galaxy%20Note%205/Samsung_Galaxy_Note_5_-_3_pwvy9t.jpg"
+                            ]
+                        }
+                    ]
+        '401':
+          description: Authorization Error
+        '404':
+          description: Not Found Error
+        '500':
+          description: Internal Server Error
+      tags:
+        - Orders
+components:
+  schemas:
+    Register:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
+      properties:
+        first_name:
+          type: string
+          description: The first name of the user
+          example: Bruce
+        last_name:
+          type: string
+          description: The last name of the user
+          example: Wayne
+        email:
+          type: string
+          description: The email address of the user
+          example: batman@gmail.com
+        password:
+          type: string
+          description: The password of the user
+          example: Darkknight1
+    Login:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: The email address of the user
+          example: batman@gmail.com
+        password:
+          type: string
+          description: The password of the user
+          example: Darkknight1
+    UpdateUserCredentials:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The first name of the user
+          example: Bruce
+        last_name:
+          type: string
+          description: The last name of the user
+          example: Wayne
+        email:
+          type: string
+          description: The email address of the user
+          example: vengeance@gmail.com
+        password:
+          type: string
+          description: The password of the user
+          example: Darkknight1
+    UpdateUserAddress:
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the user
+          example: Wayne Manor, 1007 Mountain Drive
+        city:
+          type: string
+          description: The city of the user
+          example: Gotham
+        postal_code:
+          type: string
+          description: The postal code of the user
+          example: '1234567890'
+        phone:
+          type: string
+          description: The phone number of the user
+          example: 555-3655-333
+    Product:
+      type: object
+      required:
+        - name
+        - description
+        - quantity
+        - price
+        - img_urls
+        - specs
+      properties:
+        name:
+          type: string
+          description: The name of the product
+          example: Samsung Galaxy Note 3
+        description:
+          type: string
+          description: The description of the product
+          example: >-
+            The Samsung Galaxy Note 3 is the first device ever to feature 3GB of
+            RAM. With it, Samsung makes the jump to 1080p full HD displays on
+            phablets and it adopts a new textured back. The Note 3 features a
+            larger than before 5.7” 1080p Super AMOLED display, but it retains a
+            more compact profile. There is a 13-megapixel camera with improved
+            flash, and of course an all new S Pen with improved functionality.
+        quantity:
+          type: integer
+          description: The quantity of the product
+          example: 50
+        price:
+          type: integer
+          description: The price of the product
+          example: '89.99'
+        img_urls:
+          type: array
+          description: The image urls of the product
+          items:
+            type: string
+            example:
+              - >-
+                https://res.cloudinary.com/de3kst1ud/image/upload/v1650198277/Galaxy%20Note%203/Samsung_Galaxy_Note_3_-_1_pn71o4.jpg
+              - >-
+                https://res.cloudinary.com/de3kst1ud/image/upload/v1650198271/Galaxy%20Note%203/Samsung_Galaxy_Note_3_-_2_jsciqj.jpg
+              - >-
+                https://res.cloudinary.com/de3kst1ud/image/upload/v1650198273/Galaxy%20Note%203/Samsung_Galaxy_Note_3_-_3_lvjq00.jpg
+        specs:
+          type: object
+          description: The specs of the product
+          properties:
+            camera:
+              type: object
+              properties:
+                photo:
+                  type: string
+                  example: 13MP
+                video:
+                  type: string
+                  example: 2160p
+            colors:
+              type: array
+              items:
+                type: string
+                example:
+                  - Black
+                  - White
+                  - Pink
+                  - Merlot Red
+                  - Rose Gold Black
+                  - Rose Gold White
+            battery:
+              type: string
+              example: 3200mAh
+            display:
+              type: object
+              properties:
+                size:
+                  type: string
+                  example: '5.7'
+                resolution:
+                  type: string
+                  example: 1080 x 1920
+            harware:
+              type: object
+              properties:
+                ram:
+                  type: string
+                  example: 3GB
+                chipset:
+                  type: string
+                  example: Snapdragon 800
+    Cart:
+      type: object
+      required:
+        - product_id
+        - quantity
+      properties:
+        product_id:
+          type: string
+          description: The ID of the product
+          example: bd38abae-420a-4fbf-97f1-fbb316726e1f
+        quantity:
+          type: integer
+          description: The quantity of the product
+          example: 1
+  parameters:
+    userParam:
+      name: user_id
+      in: path
+      description: ID of the user
+      required: true
+      schema:
+        type: string
+    productParam:
+      name: product_id
+      in: path
+      description: ID of the product
+      required: true
+      schema:
+        type: string
+    cartParam:
+      name: cart_id
+      in: path
+      description: ID of the cart
+      required: true
+      schema:
+        type: string
+    orderParam:
+      name: order_id
+      in: path
+      description: ID of the order
+      required: true
+      schema:
+        type: string
