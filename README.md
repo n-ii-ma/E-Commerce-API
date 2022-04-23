@@ -65,7 +65,7 @@ After installation, you will need to add the following environment variables to 
 - View order history
 
 ## Screenshot
-TBA
+![image](https://user-images.githubusercontent.com/88039431/164910384-cc4ab69c-a315-49a5-b029-349a70f2d30d.png)
 
 ## Usage
 You can perform CRUD operations on these five endpoints:
