@@ -1,4 +1,7 @@
-[![MIT License](https://img.shields.io/badge/License-MIT-brightgreen)](https://opensource.org/licenses/MIT)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue)](https://opensource.org/licenses/MIT)
+[![Documentation](https://img.shields.io/badge/Swagger-Docs-brightgreen)](https://e-commerce-pern.herokuapp.com/api-docs)
+![NPM Version](https://img.shields.io/badge/npm-v8.5.0-orange)
+[![Known Vulnerabilities](https://snyk.io/test/github/n-ii-ma/E-Commerce-API/badge.svg)](https://snyk.io/test/github/n-ii-ma/E-Commerce-API)
 
 # E-Commerce API
 
