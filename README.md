@@ -45,17 +45,17 @@ $ npm run dev
 ### Environment Variables
 After installation, you will need to add the following environment variables to your `.env` file:
 
-`DB_USER` : PostgreSQL user
+- `DB_USER` : PostgreSQL user
 
-`DB_PASSWORD` : Password of that user
+- `DB_PASSWORD` : Password of that user
 
-`DB_HOST` : Hostname of database
+- `DB_HOST` : Hostname of the database
 
-`DB_PORT` : PostgreSQL port
+- `DB_PORT` : PostgreSQL port
 
-`DB_DATABASE` : Name of database
+- `DB_DATABASE` : Name of the database
 
-`SECRET` : Session secret
+- `SECRET` : Session secret
 
 ## Features
 - Register an account
@@ -70,20 +70,21 @@ After installation, you will need to add the following environment variables to 
 ## Usage
 You can perform CRUD operations on these five endpoints:
 
-`auth` : Authenticate and authorize
+- `auth` : Authenticate and authorize
 
-`users` : Registered users' data
+- `users` : Registered users' data
 
-`products` : A set of products (*Samsung Galaxy Note smartphones*)
+- `products` : A set of products (*Samsung Galaxy Note smartphones*)
 
-`carts` : Users' carts
+- `carts` : Users' carts
 
-`orders` : Users' order history
+- `orders` : Users' order history
 
 *You can use a platform like [Postman](https://www.postman.com/) to explore the functionalities of the API.*
 
 ## Acknowledgements
-This project was based on [Codecademy](https://www.codecademy.com/)'s back-end portfolio project in the Full-Stack Engineer Career Path.
+- This project was based on [Codecademy](https://www.codecademy.com/)'s back-end portfolio project in the Full-Stack Engineer Career Path.
+- Samsung Galaxy Note smartphones' info was taken from [GSMArena](https://www.gsmarena.com/) and [PhoneArena](https://www.phonearena.com/).
 
 ## License
 Distributed under the [MIT](https://opensource.org/licenses/MIT) License.
