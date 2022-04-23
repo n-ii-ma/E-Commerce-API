@@ -238,6 +238,9 @@ const validateCartProducts = [
     .exists({ checkFalsy: true })
     .withMessage("Product Quantity Cannot Be Empty!")
     .bail()
+    .isNumeric()
+    .withMessage("Quantity Must Be a Number!")
+    .bail()
     .trim()
     .escape(),
   customValidationError,
