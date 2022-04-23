@@ -106,7 +106,7 @@ const updateCartProduct = async (req, res, next) => {
       await db.query(updateCartProductsById, [quantity, cart_id, product_id]);
       res
         .status(200)
-        .json({ message: "Product Quantity Updated Seccessfully" });
+        .json({ message: "Product Quantity Updated Successfully" });
     }
   } catch (err) {
     // If UUID is invalid postgres will throw the 'INVALID TEXT REPRESENTATION' error
