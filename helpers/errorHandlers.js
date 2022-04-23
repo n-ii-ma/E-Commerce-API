@@ -40,6 +40,7 @@ const unavailableProductError = (next) => {
   next(error);
 };
 
+// When shipping address hasn't been provided before checkout
 const missingAddressError = (next) => {
   const error = new Error("Shipping Address Has Not Been Provided!");
   error.status = 400;
