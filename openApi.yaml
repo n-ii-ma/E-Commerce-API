@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: E-Commerce API
   version: 1.0.0
-  description: A RESTful API Built with Express and PostgreSQL for an E-Commerce App.
+  description: A RESTful API Built with Node/Express and PostgreSQL for an E-Commerce App.
   contact:
     email: nimazarei53@gmail.com
     name: the Developer
@@ -26,14 +26,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: "#/components/schemas/Register"
             example:
               first_name: Bruce
               last_name: Wayne
               email: batman@gmail.com
               password: Darkknight1
       responses:
-        '201':
+        "201":
           description: Successfully Created User
           content:
             application/json:
@@ -43,9 +43,9 @@ paths:
                     {
                         "message": "User Created Successfully"
                     }
-        '400':
+        "400":
           description: Validation Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Auth
@@ -60,12 +60,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Login'
+              $ref: "#/components/schemas/Login"
             example:
               email: batman@gmail.com
               password: Darkknight1
       responses:
-        '200':
+        "200":
           description: Successfully Logged In
           content:
             application/json:
@@ -79,11 +79,11 @@ paths:
                             "email": "batman@gmail.com"
                         }
                     }
-        '400':
+        "400":
           description: Validation Error
-        '401':
+        "401":
           description: Authorization Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Auth
@@ -95,7 +95,7 @@ paths:
         data.
       operationId: logout
       responses:
-        '200':
+        "200":
           description: Successfully Logged Out
           content:
             application/json:
@@ -105,9 +105,9 @@ paths:
                     {
                         "message": "Logout Successful"
                     }
-        '401':
+        "401":
           description: Authorization Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Auth
@@ -117,11 +117,11 @@ paths:
       description: Retrieve all of the users' information from the database.
       operationId: getUsers
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved Users' Data
-        '401':
+        "401":
           description: Authorization Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Users
@@ -131,9 +131,9 @@ paths:
       description: Retrieve a user's information matching the provided user ID.
       operationId: getUser
       parameters:
-        - $ref: '#/components/parameters/userParam'
+        - $ref: "#/components/parameters/userParam"
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved User's Data
           content:
             application/json:
@@ -154,11 +154,11 @@ paths:
                         "created_at": "2022-04-22T15:04:42.848Z",
                         "cart_id": "0c970fb3-82f3-425a-aa16-a1655688244a"
                     }
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Users
@@ -167,9 +167,9 @@ paths:
       description: Delete all of a user's records matching the provided user ID.
       operationId: deleteUser
       parameters:
-        - $ref: '#/components/parameters/userParam'
+        - $ref: "#/components/parameters/userParam"
       responses:
-        '200':
+        "200":
           description: Successfully Deleted User
           content:
             application/json:
@@ -179,11 +179,11 @@ paths:
                     {
                         "message": "User Deleted Succesfully"
                     }
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Users
@@ -193,21 +193,21 @@ paths:
       description: Update a user's credentials matching the provided user ID.
       operationId: updateUserCredentials
       parameters:
-        - $ref: '#/components/parameters/userParam'
+        - $ref: "#/components/parameters/userParam"
       requestBody:
         description: Update Values
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateUserCredentials'
+              $ref: "#/components/schemas/UpdateUserCredentials"
             example:
               first_name: Bruce
               last_name: Wayne
               email: vengeance@gmail.com
               password: Darkknight1
       responses:
-        '200':
+        "200":
           description: Successfully Updated User's Private Data
           content:
             application/json:
@@ -217,13 +217,13 @@ paths:
                     {
                         "message": "User Updated Succesfully"
                     }
-        '400':
+        "400":
           description: Validation Error
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Users
@@ -233,21 +233,21 @@ paths:
       description: Update a user's address matching the provided user ID.
       operationId: updateUserAddress
       parameters:
-        - $ref: '#/components/parameters/userParam'
+        - $ref: "#/components/parameters/userParam"
       requestBody:
         description: Update Values
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateUserAddress'
+              $ref: "#/components/schemas/UpdateUserAddress"
             example:
               address: Wayne Manor, 1007 Mountain Drive
               city: Gotham
-              postal_code: '1234567890'
+              postal_code: "1234567890"
               phone: 555-3655-333
       responses:
-        '200':
+        "200":
           description: Successfully Updated User's Address
           content:
             application/json:
@@ -257,13 +257,13 @@ paths:
                     {
                         "message": "User Updated Succesfully"
                     }
-        '400':
+        "400":
           description: Validation Error
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Users
@@ -273,7 +273,7 @@ paths:
       description: Retrieve all of the products' information from the database.
       operationId: getProducts
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved Products' Data
           content:
             application/json:
@@ -361,7 +361,7 @@ paths:
                             }
                         }
                     ]
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Products
@@ -375,7 +375,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Product'
+              $ref: "#/components/schemas/Product"
             example:
               name: Samsung Galaxy Note 3
               description: >-
@@ -387,7 +387,7 @@ paths:
                 camera with improved flash, and of course an all new S Pen with
                 improved functionality.
               quantity: 50
-              price: '89.99'
+              price: "89.99"
               img_urls:
                 - >-
                   https://res.cloudinary.com/de3kst1ud/image/upload/v1650198277/Galaxy%20Note%203/Samsung_Galaxy_Note_3_-_1_pn71o4.jpg
@@ -408,13 +408,13 @@ paths:
                   - Rose Gold White
                 battery: 3200mAh
                 display:
-                  - size: '5.7'
+                  - size: "5.7"
                     resolution: 1080 x 1920
                 hardware:
                   - ram: 3GB
                     chipset: Snapdragon 800
       responses:
-        '201':
+        "201":
           description: Successfully Created Product
           content:
             application/json:
@@ -424,11 +424,11 @@ paths:
                     {
                         "message": "Product Created Successfully"
                     }
-        '400':
+        "400":
           description: Validation Error
-        '401':
+        "401":
           description: Authorization Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Products
@@ -438,9 +438,9 @@ paths:
       description: Retrieve a product's information matching the provided product ID.
       operationId: getProduct
       parameters:
-        - $ref: '#/components/parameters/productParam'
+        - $ref: "#/components/parameters/productParam"
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved Product's Data
           content:
             application/json:
@@ -486,9 +486,9 @@ paths:
                             ]
                         }
                     }
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Products
@@ -497,14 +497,14 @@ paths:
       description: Update a product's information matching the provided product ID.
       operationId: updateProduct
       parameters:
-        - $ref: '#/components/parameters/productParam'
+        - $ref: "#/components/parameters/productParam"
       requestBody:
         description: Update Values
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Product'
+              $ref: "#/components/schemas/Product"
             example:
               name: Samsung Galaxy Note 9
               description: >-
@@ -519,7 +519,7 @@ paths:
                 to a TV or Monitor giving you a desktop-like environment for
                 work or play.
               quantity: 50
-              price: '349.99'
+              price: "349.99"
               img_urls:
                 - >-
                   https://res.cloudinary.com/de3kst1ud/image/upload/v1650202981/Galaxy%20Note%209/Samsung_Galaxy_Note_9_-_1_zvdb27.jpg
@@ -540,13 +540,13 @@ paths:
                   - Alpine White
                 battery: 4000mAh
                 display:
-                  - size: '6.4'
+                  - size: "6.4"
                     resolution: 1440 x 2960
                 hardware:
                   - ram: 6GB / 8GB
                     chipset: Exynos 9810
       responses:
-        '200':
+        "200":
           description: Successfully Updated Product's Data
           content:
             application/json:
@@ -556,13 +556,13 @@ paths:
                     {
                         "message": "Product Updated Successfully"
                     }
-        '400':
+        "400":
           description: Validation Error
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Products
@@ -571,9 +571,9 @@ paths:
       description: Delete a product matching the provided product ID.
       operationId: deleteProduct
       parameters:
-        - $ref: '#/components/parameters/productParam'
+        - $ref: "#/components/parameters/productParam"
       responses:
-        '200':
+        "200":
           description: Successfully Deleted Product
           content:
             application/json:
@@ -583,11 +583,11 @@ paths:
                     {
                         "message": "Product Deleted Successfully"
                     }
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Products
@@ -597,13 +597,13 @@ paths:
       description: Retrieve all of the users' carts information from the database.
       operationId: getCarts
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved Carts' Data
-        '400':
+        "400":
           description: Empty Cart Error
-        '401':
+        "401":
           description: Authorization Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Carts
@@ -613,19 +613,19 @@ paths:
       description: Add a product to a user's cart matching the provided cart ID.
       operationId: addProductToCart
       parameters:
-        - $ref: '#/components/parameters/cartParam'
+        - $ref: "#/components/parameters/cartParam"
       requestBody:
         description: Product Values
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Cart'
+              $ref: "#/components/schemas/Cart"
             example:
               product_id: bd38abae-420a-4fbf-97f1-fbb316726e1f
               quantity: 1
       responses:
-        '201':
+        "201":
           description: Successfully Added Product to Cart
           content:
             application/json:
@@ -635,13 +635,13 @@ paths:
                     {
                         "message": "Product Added to Cart"
                     }
-        '400':
+        "400":
           description: Validation Error
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Carts
@@ -652,19 +652,19 @@ paths:
         cart ID.
       operationId: updateCartProduct
       parameters:
-        - $ref: '#/components/parameters/cartParam'
+        - $ref: "#/components/parameters/cartParam"
       requestBody:
         description: Update Values
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Cart'
+              $ref: "#/components/schemas/Cart"
             example:
               product_id: bd38abae-420a-4fbf-97f1-fbb316726e1f
               quantity: 3
       responses:
-        '200':
+        "200":
           description: Successfully Updated Product's Quantity in Cart
           content:
             application/json:
@@ -674,13 +674,13 @@ paths:
                     {
                         "message": "Product Quantity Updated Successfully"
                     }
-        '400':
+        "400":
           description: Validation Error
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Carts
@@ -690,9 +690,9 @@ paths:
       description: Retrieve the products from a user's cart matching the provided user ID.
       operationId: getCartProducts
       parameters:
-        - $ref: '#/components/parameters/userParam'
+        - $ref: "#/components/parameters/userParam"
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved Products from Cart
           content:
             application/json:
@@ -712,13 +712,13 @@ paths:
                             "quantity": 1
                         }
                     ]
-        '400':
+        "400":
           description: Empty Cart Error
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Carts
@@ -730,10 +730,10 @@ paths:
         product IDs.
       operationId: deleteCartProduct
       parameters:
-        - $ref: '#/components/parameters/cartParam'
-        - $ref: '#/components/parameters/productParam'
+        - $ref: "#/components/parameters/cartParam"
+        - $ref: "#/components/parameters/productParam"
       responses:
-        '200':
+        "200":
           description: Successfully Deleted Product from Cart
           content:
             application/json:
@@ -743,11 +743,11 @@ paths:
                     {
                         "message": "Product Deleted from Cart"
                     }
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Carts
@@ -757,9 +757,9 @@ paths:
       description: Check out the products in cart, create an order, and clear the cart.
       operationId: checkoutCart
       parameters:
-        - $ref: '#/components/parameters/cartParam'
+        - $ref: "#/components/parameters/cartParam"
       responses:
-        '201':
+        "201":
           description: Successfully Checked Out Cart
           content:
             application/json:
@@ -774,11 +774,11 @@ paths:
                             "status": "Complete"
                         }
                     }
-        '400':
+        "400":
           description: Empty Cart Error / Missing Address Error
-        '401':
+        "401":
           description: Authorization Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Carts
@@ -788,13 +788,13 @@ paths:
       description: Retrieve all of the users' orders information from the database.
       operationId: getOrders
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved Orders' Data
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Empty Order Record Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Orders
@@ -804,9 +804,9 @@ paths:
       description: Retrieve a user's order history matching the provided user ID.
       operationId: getOrdersByUserId
       parameters:
-        - $ref: '#/components/parameters/userParam'
+        - $ref: "#/components/parameters/userParam"
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved User's Order Data
           content:
             application/json:
@@ -829,11 +829,11 @@ paths:
                             "created_at": "2022-04-23T04:59:52.879Z"
                         }
                     ]
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error / Empty Order Record Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Orders
@@ -843,9 +843,9 @@ paths:
       description: Retrieve a user's order details matching the provided order ID.
       operationId: getOrderProducts
       parameters:
-        - $ref: '#/components/parameters/orderParam'
+        - $ref: "#/components/parameters/orderParam"
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved Order Details
           content:
             application/json:
@@ -865,9 +865,9 @@ paths:
                             ]
                         }
                     ]
-        '401':
+        "401":
           description: Authorization Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Orders
@@ -879,9 +879,9 @@ paths:
         order ID.
       operationId: getOrderProductsAsAdmin
       parameters:
-        - $ref: '#/components/parameters/orderParam'
+        - $ref: "#/components/parameters/orderParam"
       responses:
-        '200':
+        "200":
           description: Successfully Retrieved Order Details
           content:
             application/json:
@@ -912,11 +912,11 @@ paths:
                             ]
                         }
                     ]
-        '401':
+        "401":
           description: Authorization Error
-        '404':
+        "404":
           description: Not Found Error
-        '500':
+        "500":
           description: Internal Server Error
       tags:
         - Orders
@@ -993,7 +993,7 @@ components:
         postal_code:
           type: string
           description: The postal code of the user
-          example: '1234567890'
+          example: "1234567890"
         phone:
           type: string
           description: The phone number of the user
@@ -1029,7 +1029,7 @@ components:
         price:
           type: integer
           description: The price of the product
-          example: '89.99'
+          example: "89.99"
         img_urls:
           type: array
           description: The image urls of the product
@@ -1074,7 +1074,7 @@ components:
               properties:
                 size:
                   type: string
-                  example: '5.7'
+                  example: "5.7"
                 resolution:
                   type: string
                   example: 1080 x 1920
