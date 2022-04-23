@@ -1,3 +1,5 @@
+[![MIT License](https://img.shields.io/badge/License-MIT-brightgreen)](https://opensource.org/licenses/MIT)
+
 # E-Commerce API
 
 A RESTful API Built with Node/Express and PostgreSQL for an E-Commerce App.
@@ -11,6 +13,7 @@ A RESTful API Built with Node/Express and PostgreSQL for an E-Commerce App.
 + [Screenshot](#screenshot)
 + [Usage](#usage)
 + [Acknowledgements](#acknowledgements)
++ [License](#license)
 + [Contact](#contact)
 
 ## General Info
@@ -75,10 +78,13 @@ You can perform CRUD operations on these five endpoints:
 
 `orders` : Users' order history
 
-*You can use a platform like [Postman](https://www.postman.com/) to explore the functionality of the API.*
+*You can use a platform like [Postman](https://www.postman.com/) to explore the functionalities of the API.*
 
 ## Acknowledgements
 This project was based on [Codecademy](https://www.codecademy.com/)'s back-end portfolio project in the Full-Stack Engineer Career Path.
+
+## License
+Distributed under the [MIT](https://opensource.org/licenses/MIT) License.
 
 ## Contact
 Created by [n-ii-ma](https://github.com/n-ii-ma)
