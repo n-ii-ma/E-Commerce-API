@@ -12,7 +12,7 @@ A RESTful API Built with Node/Express and PostgreSQL for an E-Commerce App.
 + [Technologies](#technologies)
 + [Setup](#setup)
 + [Features](#features)
-+ [Screenshot](#screenshot)
++ [Screenshots](#screenshots)
 + [Usage](#usage)
 + [Acknowledgements](#acknowledgements)
 + [License](#license)
@@ -64,8 +64,13 @@ After installation, you will need to add the following environment variables to 
 - Check out cart and place an order
 - View order history
 
-## Screenshot
+## Screenshots
+
+### Swagger Docs
 ![image](https://user-images.githubusercontent.com/88039431/164910384-cc4ab69c-a315-49a5-b029-349a70f2d30d.png)
+
+### ERD
+![E-Commerce ERD](https://user-images.githubusercontent.com/88039431/164960765-8006e164-dfc7-469a-a0d0-829f7cfb734f.png)
 
 ## Usage
 You can perform CRUD operations on these five endpoints:
