@@ -1,8 +1,8 @@
 const insertProductIntoCart =
-  "INSERT INTO carts_products (cart_id, product_id, quantity) VALUES ($1, $2, $3)";
+  "INSERT INTO carts_products (cart_id, product_id, quantity, color) VALUES ($1, $2, $3, $4)";
 
 const selectCartProducts =
-  "SELECT products.product_id, products.name, products.price, products.img_urls, carts_products.quantity FROM carts JOIN carts_products ON carts_products.cart_id = carts.cart_id JOIN products ON products.product_id = carts_products.product_id WHERE user_id = $1";
+  "SELECT products.product_id, products.name, products.price, products.img_urls, carts_products.quantity, carts_products.color FROM carts JOIN carts_products ON carts_products.cart_id = carts.cart_id JOIN products ON products.product_id = carts_products.product_id WHERE user_id = $1";
 
 const selectProductFromCart =
   "SELECT * FROM carts_products WHERE cart_id = $1 AND product_id = $2";

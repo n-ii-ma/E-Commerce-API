@@ -624,6 +624,7 @@ paths:
             example:
               product_id: bd38abae-420a-4fbf-97f1-fbb316726e1f
               quantity: 1
+              color: Aura Black
       responses:
         "201":
           description: Successfully Added Product to Cart
@@ -709,7 +710,8 @@ paths:
                                 "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202229/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_2_vr91ku.jpg",
                                 "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202227/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_3_euojga.jpg"
                             ],
-                            "quantity": 1
+                            "quantity": 1,
+                            "color": "Midnight Black"
                         }
                     ]
         "400":
@@ -857,6 +859,7 @@ paths:
                             "product_id": "81294da5-f1fe-4d5d-8da2-27c8a4dd0a38",
                             "name": "Samsung Galaxy Note 8",
                             "quantity": 1,
+                            "color": "Midnight Black",
                             "price": "219.99",
                             "img_urls": [
                                 "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202227/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_1_hbaavf.jpg",
@@ -893,6 +896,7 @@ paths:
                             "product_id": "81294da5-f1fe-4d5d-8da2-27c8a4dd0a38",
                             "name": "Samsung Galaxy Note 8",
                             "quantity": 1,
+                            "color": "Midnight Black",
                             "price": "219.99",
                             "img_urls": [
                                 "https://res.cloudinary.com/de3kst1ud/image/upload/v1650202227/Galaxy%20Note%208/Samsung_Galaxy_Note_8_-_1_hbaavf.jpg",
@@ -904,6 +908,7 @@ paths:
                             "product_id": "244bd087-1e78-47f5-a3da-d783744d19a3",
                             "name": "Samsung Galaxy Note 5",
                             "quantity": 1,
+                            "color": "Black Sapphire",
                             "price": "159.99",
                             "img_urls": [
                                 "https://res.cloudinary.com/de3kst1ud/image/upload/v1650201496/Galaxy%20Note%205/Samsung%20Galaxy%20Note%205%20-%201.jpg",
@@ -1092,6 +1097,7 @@ components:
       required:
         - product_id
         - quantity
+        - color
       properties:
         product_id:
           type: string
@@ -1101,6 +1107,10 @@ components:
           type: integer
           description: The quantity of the product
           example: 1
+        color:
+          type: string
+          description: The color of the product
+          example: Mystic Black
   parameters:
     userParam:
       name: user_id

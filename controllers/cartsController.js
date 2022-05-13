@@ -37,10 +37,15 @@ const getCarts = async (req, res, next) => {
 // Add product to cart
 const addProductToCart = async (req, res, next) => {
   const cart_id = req.params.cart_id;
-  const { product_id, quantity } = req.body;
+  const { product_id, quantity, color } = req.body;
 
   try {
-    await db.query(insertProductIntoCart, [cart_id, product_id, quantity]);
+    await db.query(insertProductIntoCart, [
+      cart_id,
+      product_id,
+      quantity,
+      color,
+    ]);
     res.status(201).json({ message: "Product Added to Cart" });
   } catch (err) {
     // If UUID is invalid postgres will throw the 'INVALID TEXT REPRESENTATION' error
@@ -184,6 +189,7 @@ const checkoutCart = async (req, res, next) => {
               order_id,
               product.product_id,
               product.quantity,
+              product.color,
             ]);
             // Delete products from cart after adding them to order history (empty cart)
             await db.query(deleteProductFromCart, [

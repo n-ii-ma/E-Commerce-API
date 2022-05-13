@@ -12,7 +12,10 @@ const {
 } = require("../controllers/cartsController");
 
 // Validation
-const { validateCartProducts } = require("../middlewares/validator");
+const {
+  validateAddCartProducts,
+  validateUpdCartProducts,
+} = require("../middlewares/validator");
 
 // Authentication check
 const {
@@ -30,7 +33,7 @@ cartsRouter.post(
   "/:cart_id",
   checkNotAuthenticated,
   checkCartOwner,
-  validateCartProducts,
+  validateAddCartProducts,
   addProductToCart
 );
 
@@ -47,7 +50,7 @@ cartsRouter.put(
   "/:cart_id",
   checkNotAuthenticated,
   checkCartOwner,
-  validateCartProducts,
+  validateUpdCartProducts,
   updateCartProduct
 );
 

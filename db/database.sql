@@ -45,6 +45,7 @@ CREATE TABLE orders_products (
     order_id UUID REFERENCES orders(order_id),
     product_id UUID REFERENCES products(product_id),
     quantity INTEGER,
+    color VARCHAR(32),
     PRIMARY KEY (order_id, product_id)
 );
 
@@ -53,5 +54,6 @@ CREATE TABLE carts_products (
     cart_id UUID REFERENCES carts(cart_id),
     product_id UUID REFERENCES products(product_id),
     quantity INTEGER,
+    color VARCHAR(32),
     PRIMARY KEY (cart_id, product_id)
 );
