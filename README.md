@@ -70,7 +70,7 @@ After installation, you will need to add the following environment variables to 
 ![image](https://user-images.githubusercontent.com/88039431/164910384-cc4ab69c-a315-49a5-b029-349a70f2d30d.png)
 
 ### ERD
-![E-Commerce ERD](https://user-images.githubusercontent.com/88039431/164960765-8006e164-dfc7-469a-a0d0-829f7cfb734f.png)
+![E-Commerce ERD](https://user-images.githubusercontent.com/88039431/168246357-88bd5efc-2a8c-471b-bc14-9f4ab535a911.png)
 
 ## Usage
 You can perform CRUD operations on these five endpoints:
