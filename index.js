@@ -72,7 +72,7 @@ app.use(passport.session());
 const rateLimit = require("express-rate-limit");
 const limiter = rateLimit({
   windowMs: 60000, // 1 minute
-  max: 15, // 15 requests per minute
+  max: 100, // 15 requests per minute
   standardHeaders: true,
 });
 
