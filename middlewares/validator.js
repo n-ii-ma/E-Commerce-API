@@ -174,8 +174,7 @@ const validateProductCreation = [
     .exists({ checkFalsy: true })
     .withMessage("Product Description Cannot Be Empty!")
     .bail()
-    .trim()
-    .escape(),
+    .trim(),
   body("quantity")
     .optional({ nullable: true })
     .isNumeric()
@@ -206,7 +205,7 @@ const validateProductUpdate = [
     .bail()
     .trim()
     .escape(),
-  body("description").optional({ nullable: true }).trim().escape(),
+  body("description").optional({ nullable: true }).trim(),
   body("quantity")
     .optional({ nullable: true })
     .isNumeric()
