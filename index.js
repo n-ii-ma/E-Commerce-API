@@ -10,9 +10,9 @@ const app = express();
 const cors = require("cors");
 const options = {
   credentials: true,
-  // Changing for Client Development
-  // origin: isProduction ? process.env.ADDRESS : "*",
-  origin: "*",
+  origin: isProduction
+    ? [process.env.ADDRESS1, process.env.ADDRESS2, "http://localhost:3000"]
+    : "*",
 };
 
 app.use(cors(options));
