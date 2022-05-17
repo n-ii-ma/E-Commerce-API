@@ -7,25 +7,12 @@ const express = require("express");
 const app = express();
 
 // CORS
-const whitelist = [
-  process.env.ADDRESS1,
-  process.env.ADDRESS2,
-  "http://localhost:3000",
-];
-
 const cors = require("cors");
 const options = {
   credentials: true,
-  /*   origin: isProduction
+  origin: isProduction
     ? [process.env.ADDRESS1, process.env.ADDRESS2, "http://localhost:3000"]
-    : "*", */
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+    : "*",
 };
 
 app.use(cors(options));
