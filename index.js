@@ -45,7 +45,7 @@ app.use(
   session({
     secret: process.env.SECRET,
     name: "pg.sessionId",
-    saveUninitialized: true,
+    saveUninitialized: false,
     resave: false,
     cookie: {
       maxAge: 1209600000, // 14 days
