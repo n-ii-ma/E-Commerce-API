@@ -51,7 +51,7 @@ app.use(
       maxAge: 1209600000, // 14 days
       httpOnly: true,
       secure: isProduction ? true : false,
-      sameSite: "strict",
+      sameSite: isProduction ? "none" : "lax",
     },
     store: new pgSession({
       pool: db,
