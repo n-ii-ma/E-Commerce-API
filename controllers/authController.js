@@ -58,6 +58,7 @@ const login = (req, res, next) => {
           message: "Login Successful",
           user: {
             user_id: req.user.user_id,
+            cart_id: req.user.cart_id,
             email: req.user.email,
           },
         });

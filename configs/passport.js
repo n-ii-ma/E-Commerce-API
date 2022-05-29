@@ -39,7 +39,12 @@ const initialize = (passport) => {
   );
 
   // Store user id in session
-  passport.serializeUser((user, done) => {
+  passport.serializeUser(async (user, done) => {
+    // Add the cart_id property to req.user on login
+    const cart = await db.query(selectCartByUserId, [user.user_id]);
+    const cart_id = cart.rows[0].cart_id;
+    user.cart_id = cart_id;
+
     done(null, user.user_id);
   });
 

@@ -76,6 +76,7 @@ paths:
                         "message": "Login Successful",
                         "user": {
                             "user_id": "eef9e7c4-2a59-41c9-89d8-b0242b633876",
+                            "cart_id": "0c970fb3-82f3-425a-aa16-a1655688244a",
                             "email": "batman@gmail.com"
                         }
                     }
