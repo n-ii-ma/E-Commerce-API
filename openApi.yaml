@@ -600,8 +600,6 @@ paths:
       responses:
         "200":
           description: Successfully Retrieved Carts' Data
-        "400":
-          description: Empty Cart Error
         "401":
           description: Authorization Error
         "500":
@@ -715,8 +713,6 @@ paths:
                             "color": "Midnight Black"
                         }
                     ]
-        "400":
-          description: Empty Cart Error
         "401":
           description: Authorization Error
         "404":
@@ -778,7 +774,7 @@ paths:
                         }
                     }
         "400":
-          description: Empty Cart Error / Missing Address Error
+          description: Missing Address Error
         "401":
           description: Authorization Error
         "500":
@@ -795,8 +791,6 @@ paths:
           description: Successfully Retrieved Orders' Data
         "401":
           description: Authorization Error
-        "404":
-          description: Empty Order Record Error
         "500":
           description: Internal Server Error
       tags:
@@ -835,7 +829,7 @@ paths:
         "401":
           description: Authorization Error
         "404":
-          description: Not Found Error / Empty Order Record Error
+          description: Not Found Error
         "500":
           description: Internal Server Error
       tags:

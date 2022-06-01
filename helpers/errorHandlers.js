@@ -26,13 +26,6 @@ const invalidCartProductIdError = (next) => {
   next(error);
 };
 
-// When cart is empty
-const emptyCartError = (next) => {
-  const error = new Error("Cart Is Empty!");
-  error.status = 400;
-  next(error);
-};
-
 // Product not available in cart
 const unavailableProductError = (next) => {
   const error = new Error("Product Not Avaialable in Cart!");
@@ -47,20 +40,11 @@ const missingAddressError = (next) => {
   next(error);
 };
 
-// When order record is empty
-const emptyOrderRecordError = (next) => {
-  const error = new Error("Order Record Is Empty!");
-  error.status = 404;
-  next(error);
-};
-
 module.exports = {
   uniqueViolationError,
   duplicateProductError,
   invalidIdError,
   invalidCartProductIdError,
-  emptyCartError,
   unavailableProductError,
   missingAddressError,
-  emptyOrderRecordError,
 };

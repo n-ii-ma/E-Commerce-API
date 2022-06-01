@@ -19,7 +19,6 @@ const {
   duplicateProductError,
   invalidIdError,
   invalidCartProductIdError,
-  emptyCartError,
   unavailableProductError,
   missingAddressError,
 } = require("../helpers/errorHandlers");
@@ -79,7 +78,7 @@ const getCartProducts = async (req, res, next) => {
 
     const products = await db.query(selectCartProducts, [user_id]);
     if (!products.rows.length) {
-      emptyCartError(next);
+      res.status(200).json({ message: "Cart Is Empty" });
     } else {
       res.status(200).json(products.rows);
     }
@@ -160,7 +159,7 @@ const checkoutCart = async (req, res, next) => {
     // Check if cart isn't empty
     const cart = await db.query(selectCartProducts, [user_id]);
     if (!cart.rows.length) {
-      emptyCartError(next);
+      res.status(200).json({ message: "Cart Is Empty" });
     } else {
       // Calculate the total price of the products based on their quantity
       const total_price = cart.rows
