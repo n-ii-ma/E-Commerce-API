@@ -34,9 +34,12 @@ const payment = async (req, res, next) => {
           amount: total_price * 100,
           currency: "usd",
           receipt_email: email,
+          automatic_payment_methods: {
+            enabled: true,
+          },
         });
 
-        res.status(200).json({ client_secret: paymentIntent.client_secret });
+        res.status(200).json({ clientSecret: paymentIntent.client_secret });
       }
     }
   } catch (err) {
