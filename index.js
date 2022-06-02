@@ -95,12 +95,14 @@ const productsRouter = require("./routes/products");
 const usersRouter = require("./routes/users");
 const cartsRouter = require("./routes/carts");
 const ordersRouter = require("./routes/orders");
+const paymentRouter = require("./routes/payment");
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/carts", cartsRouter);
 app.use("/api/v1/orders", ordersRouter);
+app.use("/api/v1/payment", paymentRouter);
 
 // Error handling
 app.use((err, req, res, next) => {
