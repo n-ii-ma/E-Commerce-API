@@ -31,7 +31,7 @@ const payment = async (req, res, next) => {
         missingAddressError(next);
       } else {
         const paymentIntent = await stripe.paymentIntents.create({
-          amount: total_price,
+          amount: total_price * 100,
           currency: "usd",
           receipt_email: email,
         });
