@@ -30,6 +30,7 @@ const payment = async (req, res, next) => {
       if (!address.rows.length) {
         missingAddressError(next);
       } else {
+        // Create payment intent and send the client secret to the client
         const paymentIntent = await stripe.paymentIntents.create({
           amount: total_price * 100,
           currency: "usd",
@@ -39,7 +40,7 @@ const payment = async (req, res, next) => {
           },
         });
 
-        res.status(200).json({ clientSecret: paymentIntent.client_secret });
+        res.status(201).json({ clientSecret: paymentIntent.client_secret });
       }
     }
   } catch (err) {

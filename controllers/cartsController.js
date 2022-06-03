@@ -10,7 +10,6 @@ const {
   deleteProductFromCart,
 } = require("../db/cartsProductsQuery");
 const { selectUserById } = require("../db/usersQuery");
-const { checkAddress } = require("../db/usersQuery");
 const { insertOrder } = require("../db/ordersQuery");
 const { insertProductIntoOrder } = require("../db/ordersProductsQuery");
 
@@ -20,7 +19,6 @@ const {
   invalidIdError,
   invalidCartProductIdError,
   unavailableProductError,
-  missingAddressError,
 } = require("../helpers/errorHandlers");
 
 // Get all carts
@@ -168,45 +166,36 @@ const checkoutCart = async (req, res, next) => {
         }, 0)
         .toFixed(2);
 
-      // Check if shipping address has been provided in the user info
-      const address = await db.query(checkAddress, [user_id]);
-      if (!address.rows.length) {
-        missingAddressError(next);
-      } else {
-        // Create new order
-        const order = await db.query(insertOrder, [
-          user_id,
-          total_price,
-          "Complete",
-        ]);
-        const order_id = order.rows[0].order_id;
+      // Create new order
+      const order = await db.query(insertOrder, [
+        user_id,
+        total_price,
+        "Complete",
+      ]);
+      const order_id = order.rows[0].order_id;
 
-        // Move products from cart to order history
-        await Promise.all(
-          cart.rows.map(async (product) => {
-            await db.query(insertProductIntoOrder, [
-              order_id,
-              product.product_id,
-              product.quantity,
-              product.color,
-            ]);
-            // Delete products from cart after adding them to order history (empty cart)
-            await db.query(deleteProductFromCart, [
-              cart_id,
-              product.product_id,
-            ]);
-          })
-        );
+      // Move products from cart to order history
+      await Promise.all(
+        cart.rows.map(async (product) => {
+          await db.query(insertProductIntoOrder, [
+            order_id,
+            product.product_id,
+            product.quantity,
+            product.color,
+          ]);
+          // Delete products from cart after adding them to order history (empty cart)
+          await db.query(deleteProductFromCart, [cart_id, product.product_id]);
+        })
+      );
 
-        res.status(201).json({
-          message: "Order Submitted Successfully",
-          order: {
-            order_number: order.rows[0].order_number,
-            total_price: order.rows[0].total_price,
-            status: order.rows[0].status,
-          },
-        });
-      }
+      res.status(201).json({
+        message: "Order Submitted Successfully",
+        order: {
+          order_number: order.rows[0].order_number,
+          total_price: order.rows[0].total_price,
+          status: order.rows[0].status,
+        },
+      });
     }
   } catch (err) {
     next(err);
