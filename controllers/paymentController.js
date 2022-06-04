@@ -32,7 +32,7 @@ const payment = async (req, res, next) => {
       } else {
         // Create payment intent and send the client secret to the client
         const paymentIntent = await stripe.paymentIntents.create({
-          amount: total_price * 100,
+          amount: Math.round(total_price * 100),
           currency: "usd",
           receipt_email: email,
           automatic_payment_methods: {
