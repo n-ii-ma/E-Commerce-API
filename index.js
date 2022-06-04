@@ -10,7 +10,9 @@ const app = express();
 const cors = require("cors");
 const options = {
   credentials: true,
-  origin: isProduction ? [process.env.ADDRESS1, process.env.ADDRESS2] : "*",
+  origin: isProduction
+    ? [process.env.ADDRESS1, process.env.ADDRESS2]
+    : "http://localhost:3001",
 };
 
 app.use(cors(options));
@@ -25,7 +27,6 @@ app.use(compression());
 
 // Body parser
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Logger with Morgan
 const morgan = require("morgan");
