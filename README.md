@@ -57,6 +57,8 @@ After installation, you will need to add the following environment variables to 
 
 - `SECRET` : Session secret
 
+- `STRIPE_SECRET_KEY` : Stripe API secret key
+
 ## Features
 - Register an account
 - Browse a set of products
@@ -73,7 +75,7 @@ After installation, you will need to add the following environment variables to 
 ![E-Commerce ERD](https://user-images.githubusercontent.com/88039431/168246357-88bd5efc-2a8c-471b-bc14-9f4ab535a911.png)
 
 ## Usage
-You can perform CRUD operations on these five endpoints:
+You can perform CRUD operations on these six endpoints:
 
 - `auth` : Authenticate and authorize
 
@@ -84,6 +86,8 @@ You can perform CRUD operations on these five endpoints:
 - `carts` : Users' carts
 
 - `orders` : Users' order history
+
+- `payment` : Create Stripe payment intents
 
 *You can use a platform like [Postman](https://www.postman.com/) to explore the functionalities of the API.*
 
