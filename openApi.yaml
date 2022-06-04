@@ -920,7 +920,7 @@ paths:
         - Orders
   /api/v1/payment/create-payment-intent:
     post:
-      summary: Create Stripe Payment Intent
+      summary: Create Stripe Payment Intents
       description: Create a Stripe payment intent to send the client secret to the client.
       operationId: payment
       responses:
