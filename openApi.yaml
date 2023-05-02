@@ -13,7 +13,7 @@ externalDocs:
   description: GitHub Repository
   url: https://github.com/n-ii-ma/E-Commerce-API
 servers:
-  - url: https://e-commerce-pern.cyclic.app
+  - url: https://e-commerce-pern.herokuapp.com
 paths:
   /api/v1/auth/register:
     post:
