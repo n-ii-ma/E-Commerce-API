@@ -1,5 +1,5 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-blue)](https://opensource.org/licenses/MIT)
-[![Documentation](https://img.shields.io/badge/Swagger-Docs-brightgreen)](https://e-commerce-pern.herokuapp.com/api-docs)
+[![Documentation](https://img.shields.io/badge/Swagger-Docs-brightgreen)](https://e-commerce-pern.cyclic.app/api-docs)
 [![Known Vulnerabilities](https://snyk.io/test/github/n-ii-ma/E-Commerce-API/badge.svg)](https://snyk.io/test/github/n-ii-ma/E-Commerce-API)
 
 # E-Commerce API
@@ -22,7 +22,7 @@ A RESTful API Built with Node/Express and PostgreSQL for an E-Commerce App.
 A fully-functioning E-Commerce application REST API that allows users to perform various CRUD operations such as registering an account, browsing products for sale, purchasing products, etc.
 
 ## Documentation
-https://e-commerce-pern.herokuapp.com/api-docs
+https://e-commerce-pern.cyclic.app/api-docs
 
 *Built with [Swagger](https://swagger.io/)*
 
