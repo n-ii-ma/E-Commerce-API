@@ -22,7 +22,7 @@ A RESTful API Built with Node/Express and PostgreSQL for an E-Commerce App.
 A fully-functioning E-Commerce application REST API that allows users to perform various CRUD operations such as registering an account, browsing products for sale, purchasing products, etc.
 
 ## Documentation
-https://e-commerce-pern.herokuapp.com/
+https://e-commerce-pern.herokuapp.com/api-docs
 
 *Built with [Swagger](https://swagger.io/)*
 
